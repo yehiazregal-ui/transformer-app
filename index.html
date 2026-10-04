@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b5f73"><title>صيانة المحولات</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#eef3f4;color:#14262e;font-size:18px}
+header{background:#0b5f73;color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
+#bk{background:none;border:1px solid #fff8;color:#fff;border-radius:8px;padding:6px 12px;font-size:16px;display:none}#bd{font-size:14px}
+main{padding:14px;max-width:640px;margin:auto}h2{margin:6px 0 14px;font-size:21px;white-space:pre-line}
+.btn{display:block;width:100%;padding:18px;margin:0 0 10px;border:0;border-radius:12px;background:#0b5f73;color:#fff;font-size:20px}
+.btn.alt{background:#fff;color:#0b5f73;border:2px solid #0b5f73}.btn.small{display:inline-block;width:auto;padding:8px 16px;font-size:16px;margin:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .btn{margin:0;padding:16px 6px;font-size:17px}
+input{width:100%;padding:14px;font-size:20px;border:2px solid #c9d6da;border-radius:10px;margin-bottom:12px}label{display:block;margin:4px 0}
+.pin{text-align:center;letter-spacing:10px;font-size:28px}.row{background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:8px;border-right:6px solid #c9d6da}
+.row.ed{border-right-color:#e8a317}.row.mt{border-right-color:#e8a317;background:#fffbe6}.row small{color:#5b6e75;display:block}.val{font-size:19px;margin:2px 0 6px}
+.tag{background:#e8a317;border-radius:6px;padding:1px 8px;font-size:13px}.err{color:#b3261e;margin:6px 0}
+.res{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px}.bad{background:#fde7c8}.hot{background:#f8cbad}.ok{background:#c6efce}
+</style></head><body>
+<header><b>صيانة المحولات</b><span id="bd"></span><button id="bk" onclick="bk&&bk()">رجوع</button></header>
+<main id="m"></main>
+<script>
+const API='https://script.google.com/macros/s/AKfycbx0E9Ti7p3g_ZXk-QSU7s2hPDyp3eVIdHYjl5Xtrm-uQV8MLg3pp5rD3JN9xxLuDvTq0A/exec';
+const LOCK=['رقم داخلي','آخر تعديل بواسطة','وقت آخر تعديل','ملاحظات جودة البيانات'];
+const SEL={'عام/خاص':['عام','خاص'],'التركيب':['كشك','معلق','حجرة','قاعدة'],'الجهد ك.ف':['10.5','11'],'السعة ك ف أ':['25','50','100','160','200','250','315','400','500','630','800','1000','1250','1600','2000']};
+const TAPS={'11':5,'10.5':7}; // مؤقت: تأكد منه من لوحات المحولات
+const DIST='بُعد مسافة المحول عن مصدر التغذية (كم)';
+const $=s=>document.querySelector(s),m=$('#m');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const db=new Promise(r=>{const q=indexedDB.open('tr',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>r(q.result)});
+const kv=(md,k,v)=>db.then(d=>new Promise(r=>{const o=d.transaction('kv',md=='get'?'readonly':'readwrite').objectStore('kv'),q=md=='get'?o.get(k):o.put(v,k);q.onsuccess=()=>r(q.result)}));
+const api=b=>fetch(API,{method:'POST',body:JSON.stringify({pin:S.pin,...b})}).then(r=>r.json());
+const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tr'+t)))].map(x=>x.toString(16).padStart(2,'0')).join('');
+let S={pin:'',user:null,h:[],rows:[],ops:[],ph:[]},cur={},bk=null,H=[],busy=0;
+const B=(t,f,c='')=>{H.push(f);return `<button class="btn ${c}" onclick="H[${H.length-1}]()">${t}</button>`};
+const show=(h,b)=>{m.innerHTML=h;bk=b||null;$('#bk').style.display=b?'block':'none';scrollTo(0,0)};
+const col=n=>S.h.indexOf(n),row=id=>S.rows.find(r=>r[0]===id),val=(id,f)=>{const r=row(id),i=col(f);return r&&i>=0&&r[i]!=null?String(r[i]):''};
+const save=()=>Promise.all([kv('put','ops',S.ops),kv('put','ph',S.ph)]).then(badge);
+const badge=()=>{const n=S.ops.length+S.ph.length;$('#bd').textContent=(navigator.onLine?'':'بدون نت · ')+(n?'لسه '+n+' ما اترفعوش':'اتزامن ✓')};
+// الحسابات بنفس معادلات الإكسيل
+const calc=(R,S2,T,cap)=>{const a=(R+S2+T)/3,N=Math.max(R,S2,T)-a,L=cap?Math.round(a/(cap*1.44)*100):null,dev=a?Math.max(Math.abs(R-a),Math.abs(S2-a),Math.abs(T-a))/a:0;
+ const adv=[['R',R],['S',S2],['T',T]].map(([n,x])=>a&&(x-a)/a>.05?'خفّف '+n+' حوالي '+Math.round(x-a)+' أمبير':a&&(a-x)/a>.05?'زوّد '+n+' حوالي '+Math.round(a-x)+' أمبير':null).filter(Boolean);
+ return{a,N,L,bal:dev<=.05,adv}};
+async function sync(){if(busy||!navigator.onLine||!S.pin)return;busy=1;try{
+ if(S.ops.length){const r=await api({a:'sync',ops:S.ops});if(r.ok)S.ops=S.ops.filter(o=>!r.done.includes(o.uid))}
+ for(const p of [...S.ph]){const r=await api({a:'photo',...p});if(r.ok)S.ph=S.ph.filter(x=>x.uid!==p.uid);else break}}catch(e){}busy=0;save()}
+setInterval(sync,30000);addEventListener('online',()=>{badge();sync()});addEventListener('offline',badge);
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+// الدخول
+function pin(msg){show(`<h2>اكتب الرقم السري</h2><input id="p" class="pin" type="password" inputmode="numeric" maxlength="8" oninput="this.value.length==4&&login()"><div class="err">${msg||''}</div>`+B('دخول',login))}
+async function login(){const p=$('#p').value.trim();if(p.length<4)return;S.pin=p;show('<h2>لحظة...</h2>');
+ try{const r=await api({a:'login'});if(!r.ok)return pin('الرقم غير صحيح');S.user=r.user;await kv('put','auth',{h:await sha(p),u:r.user});
+  const b=await api({a:'boot'});if(b.ok){S.h=b.h;S.rows=b.rows;S.q=b.q;S.th=b.th;S.cfg=b.cfg;S.lists=b.lists;await kv('put','data',b)}}
+ catch(e){const a=await kv('get','auth');if(!a||a.h!==await sha(p))return pin('مفيش نت والرقم مش محفوظ على الجهاز');S.user=a.u}
+ const d=await kv('get','data');if(!S.h.length&&d){S.h=d.h;S.rows=d.rows;S.q=d.q;S.th=d.th;S.cfg=d.cfg;S.lists=d.lists}
+ if(!S.h.length)return pin('افتح التطبيق مرة بنت لتحميل البيانات');
+ S.ops=(await kv('get','ops'))||[];S.ph=(await kv('get','ph'))||[];badge();sync();types()}
+// الاختيار
+function types(){if(S.user.role==='إدارة')return adm();show(`<h2>أهلًا ${esc(S.user.name)}\nالمحول عام ولا خاص؟</h2>`+B('عام',()=>feeders('عام'))+B('خاص',()=>feeders('خاص')))}
+function feeders(t){cur.t=t;const fs=[...new Set(S.rows.filter(r=>r[col('عام/خاص')]===t).map(r=>r[col('المغذي')]))].sort();
+ show(`<h2>اختار المغذي (${fs.length})</h2><input id="q" placeholder="ابحث" oninput="dr()"><div class="grid" id="g"></div>`,types);
+ window.dr=()=>{const q=$('#q').value.trim();$('#g').innerHTML=fs.filter(f=>String(f).includes(q)).map(f=>B(esc(f),()=>trs(f))).join('')};dr()}
+function trs(f){cur.f=f;const ts=S.rows.filter(r=>r[col('عام/خاص')]===cur.t&&r[col('المغذي')]===f);
+ show(`<h2>${esc(f)}: اختار المحول (${ts.length})</h2><input id="q" placeholder="ابحث" oninput="dr()"><div class="grid" id="g"></div>`,()=>feeders(cur.t));
+ window.dr=()=>{const q=$('#q').value.trim();$('#g').innerHTML=ts.filter(r=>String(r[col('اسم المحول')]).includes(q)).map(r=>B(esc(r[col('اسم المحول')]),()=>{cur.chg={};cur.adm?rep(r[0]):card(r[0])})).join('')};dr()}
+// البطاقة والتعديل
+function card(id){cur.id=id;if(cur.vid!==id){cur.vid=id;cur.visit='V'+Date.now()}let fs=S.h.filter(h=>!LOCK.includes(h));if(!fs.includes(DIST))fs.unshift(DIST);
+ show(`<h2>${esc(val(id,'اسم المحول'))}</h2>`+B('▶ ابدأ الزيارة',visit)+B('📊 الأحمال والاتزان',()=>{cur.ph='before';L0()})+fs.map(f=>{const v=val(id,f),ch=cur.chg&&f in cur.chg;
+  return `<div class="row ${ch?'ed':''} ${v===''?'mt':''}"><small>${esc(f)}</small><div class="val">${v===''?'ناقص':esc(v)}${ch?` <span class="tag">عُدّل (كان: ${esc(cur.chg[f]||'فارغ')})</span>`:''}</div>${B('تعديل',()=>edit(f),'small alt')}</div>`}).join(''),()=>trs(cur.f))}
+function setv(id,f,v){let i=col(f);if(i<0){S.h.push(f);i=S.h.length-1}const o=val(id,f);if(o===v)return;row(id)[i]=v;(cur.chg=cur.chg||{})[f]=o;S.ops.push({uid:uid(),t:'edit',id,f,v,ts:Date.now()});kv('put','data',{h:S.h,rows:S.rows});save();sync()}
+function edit(f){const id=cur.id,o=val(id,f);let ops=SEL[f];if(f==='وضع الـ Tap'){const n=cfg('عدد أوضاع Tap لجهد '+val(id,'الجهد ك.ف'));ops=n?Array.from({length:n},(_,k)=>String(k+1)):null}
+ if(ops)return show(`<h2>${esc(f)}</h2>`+ops.map(x=>B(x,()=>{setv(id,f,x);card(id)},x===o?'alt':'')).join(''),()=>card(id));
+ show(`<h2>${esc(f)}</h2><input id="v" value="${esc(o)}" ${f===DIST?'inputmode="decimal" placeholder="مثال 7.5"':''}><div id="er" class="err"></div>`+B('حفظ',()=>{const v=$('#v').value.trim();
+  if(f===DIST&&!/^\d(\.\d)?$/.test(v))return $('#er').textContent='من 0 إلى 9.9 وخانة عشرية واحدة، مثال 7.5';setv(id,f,v);card(id)}),()=>card(id))}
+// الأحمال
+function ask(t,ks,ok,skip){show(`<h2>${t}</h2>`+ks.map(k=>`<label>${k}</label><input id="i${k}" inputmode="decimal">`).join('')+'<div id="er" class="err"></div>'+B('التالي',()=>{const v={};for(const k of ks){const x=parseFloat($('#i'+k).value);if(isNaN(x)||x<0)return $('#er').textContent='اكتب رقم صحيح';v[k]=x}ok(v)})+(skip?B('تخطي',()=>ok(null),'alt'):''),()=>card(cur.id))}
+function L0(){cur.L={ph:cur.ph};show('<h2>فيه قاطع عمومي؟</h2>'+B('نعم',()=>{cur.L.brk=1;ask('سعة القاطع العمومي (أمبير)',['cap'],v=>{cur.L.cap=v.cap;ask('الحمل عند القاطع (أمبير)',['R','S','T'],v=>ask('جهد بداية القاطع (فولت) عند خروجه',['R','S','T'],w=>{Object.assign(cur.L,{vr:w.R,vs:w.S,vt:w.T});vchk(w);L3(v)}))})})
+ +B('لا',()=>{cur.L.brk=0;cur.L.sum={R:0,S:0,T:0};LS(1)},'alt'),()=>card(cur.id))}
+function LS(i){const n=parseInt(val(cur.id,'عدد السورتيهات'))||1;ask(`حمل السورتيه ${i} من ${n} (أمبير)`,['R','S','T'],v=>{['R','S','T'].forEach(k=>cur.L.sum[k]+=v[k]);i<n?LS(i+1):L3(cur.L.sum)})}
+function L3(v){const c=calc(v.R,v.S,v.T,parseFloat(val(cur.id,'السعة ك ف أ')));Object.assign(cur.L,{R:v.R,S:v.S,T:v.T,c});
+ ask(`حمل N المقيس (أمبير)\nالمعادلة قالت: ${c.N.toFixed(1)}`,['N'],x=>{cur.L.nm=x?x.N:'';res()},1)}
+function res(){const l=cur.L,c=l.c;S.ops.push({uid:uid(),t:'loads',id:cur.id,ph:l.ph,brk:l.brk,cap:l.cap||'',R:l.R,S:l.S,T:l.T,nm:l.nm,vr:l.vr,vs:l.vs,vt:l.vt});save();sync();
+ const hot=c.L>80,nw=l.nm!==''&&l.nm>0.1*c.a;
+ show(`<h2>النتيجة (${l.ph==='after'?'بعد الاتزان':'قبل الاتزان'})</h2><div class="res">المتوسط: ${c.a.toFixed(1)} أمبير<br>حمل N بالمعادلة: ${c.N.toFixed(1)}${l.nm!==''?' · المقيس: '+l.nm:''}<br>نسبة التحميل: ${c.L===null?'—':c.L+'%'}</div>`
+  +`<div class="res ${c.bal?'ok':'bad'}">${c.bal?'المحول متزن ✓':'المحول غير متزن: '+c.adv.join(' · ')}</div>`+(hot?'<div class="res hot">نسبة التحميل أكبر من 80%: اتسجل في «محولات محملة»</div>':'')+(nw?'<div class="res bad">N المقيس أكبر من 10% من المتوسط. راجعه مع المعادلة</div>':'')
+  +(cur.vwarn?'<div class="res bad">'+cur.vwarn+'</div>':'')+B('📷 صوّر بنسة الأمبير',()=>shot('بنسة_أمبير_'+l.ph,()=>res()))+(!c.bal&&l.ph==='before'?B('أدخل الأحمال بعد الاتزان',()=>{cur.ph='after';L0()},'alt'):'')+B('تم',()=>cur.next?cur.next():card(cur.id),'alt'),()=>card(cur.id))}
+// الصور
+const shrink=f=>new Promise(r=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1280/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.7).split(',')[1])};i.src=URL.createObjectURL(f)});
+function shot(kind,cb){const f=document.createElement('input');f.type='file';f.accept='image/*';f.setAttribute('capture','environment');
+ f.onchange=async()=>{if(!f.files[0])return;const b=await shrink(f.files[0]);cur.lastb64=b;S.ph.push({uid:uid(),id:cur.id,visit:cur.visit,kind,b64:b});await save();sync();cb()};f.click()}
+pin();
+</script><script src="flow.js"></script></body></html>

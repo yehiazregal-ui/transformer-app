@@ -36,7 +36,7 @@ const api=b=>fetch(API,{method:'POST',body:JSON.stringify({pin:S.pin,...b})}).th
 const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tr'+t)))].map(x=>x.toString(16).padStart(2,'0')).join('');
 
 let S={pin:'',user:null,h:[],rows:[],ops:[],ph:[],q:[],th:[],cfg:{},lists:{}},cur={},bk=null,H=[],busy=0;
-const cfg=k=>{const v=parseFloat(S.cfg[k]);return isNaN(v)?0:v};
+const cfg=k=>{const v=parseFloat((S.cfg||{})[k]);return isNaN(v)?0:v};
 const norm=s=>String(s).replace(/\s+/g,'').toUpperCase();
 const B=(t,f,c='')=>{H.push(f);return `<button class="btn ${c}" onclick="H[${H.length-1}]()">${t}</button>`};
 const show=(h,b)=>{m.innerHTML=h;bk=b||null;$('#bk').style.display=b?'block':'none';scrollTo(0,0)};
@@ -96,7 +96,7 @@ function conf(i){if(i>=CF.length)return gps();const f=i<0?DIST:CF[i],id=cur.id,r
  show(t+'<input id="v" inputmode="'+(f===DIST?'decimal':'text')+'"><div id="er" class="err"></div>'+B('التالي',()=>done($('#v').value))+(/كود/.test(f)?B('مفيش كود في الموقع',()=>{if(reg!=='')op({t:'alert',f:f+' مسجل وغير موجود في الموقع',reg});conf(i+1)},'alt'):''))}
 
 function sr_det(k){const max=parseInt(cur.req_sorties);if(k>max)return conf(CF.indexOf('عدد السورتيهات')+1);
- show(`<h2>بيانات السورتيه ${k}</h2><label>الاسم</label><input id="n"><label>مقاس الكابل</label><select id="c"><option></option>${S.lists['مقاسات الكابل'].map(x=>`<option>${x}</option>`)}</select><label>طول الكابل (كم)</label><input id="cl" inputmode="decimal"><label>مقاس الهوائي (إن وجد)</label><select id="a"><option></option>${S.lists['مقاسات الهوائي'].map(x=>`<option>${x}</option>`)}</select><label>طول الهوائي (كم)</label><input id="al" inputmode="decimal">`
+ show(`<h2>بيانات السورتيه ${k}</h2><label>الاسم</label><input id="n"><label>مقاس الكابل</label><select id="c"><option></option>${(S.lists['مقاسات الكابل']||[]).map(x=>`<option>${x}</option>`)}</select><label>طول الكابل (كم)</label><input id="cl" inputmode="decimal"><label>مقاس الهوائي (إن وجد)</label><select id="a"><option></option>${(S.lists['مقاسات الهوائي']||[]).map(x=>`<option>${x}</option>`)}</select><label>طول الهوائي (كم)</label><input id="al" inputmode="decimal">`
  +'<div id="er" class="err"></div>'+B('التالي',()=>{const v={n:$('#n').value,c:$('#c').value,cl:$('#cl').value,a:$('#a').value,al:$('#al').value};if(!v.n\vert{}\vert{}!v.c)return $('#er').textContent='أكمل البيانات';op({t:'maint',key:`سورتيه_${k}_تفاصيل`,done:JSON.stringify(v)});cur.ans['Q25#'+k]=v.al||'0';sr_det(k+1)}))}
 
 function gps(){show('<h2>الموقع</h2><div id="er" class="err"></div>'+B('📍 احصل على الإحداثيات',()=>{$('#er').textContent='بيقرأ الموقع...';navigator.geolocation.getCurrentPosition(p=>{setv(cur.id,'X',p.coords.longitude.toFixed(6));setv(cur.id,'Y',p.coords.latitude.toFixed(6));run(['صور الموقع'],th0)},()=>$('#er').textContent='الموقع مش متاح. اطلع مكان مفتوح وجرّب تاني',{enableHighAccuracy:true,timeout:20000})}))}

@@ -1,1 +1,1 @@
-{"name":"صيانة المحولات","short_name":"المحولات","start_url":"./","display":"standalone","background_color":"#eef3f4","theme_color":"#0b5f73","lang":"ar","dir":"rtl"}
+{"name": "صيانة المحولات", "short_name": "المحولات", "start_url": "./", "display": "standalone", "background_color": "#fff7f2", "theme_color": "#f84000", "lang": "ar", "dir": "rtl", "icons": [{"src": "img/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "img/icon-512.png", "sizes": "512x512", "type": "image/png"}]}

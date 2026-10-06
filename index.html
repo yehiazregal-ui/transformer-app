@@ -1,179 +1,268 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0b5f73"><title>صيانة المحولات</title>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><link rel="icon" href="img/icon-192.png"><meta name="theme-color" content="#f84000"><title>صيانة المحولات - NDEDC</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#eef3f4;color:#14262e;font-size:18px}
-header{background:#0b5f73;color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-#bk{background:none;border:1px solid #fff8;color:#fff;border-radius:8px;padding:6px 12px;font-size:16px;display:none}#bd{font-size:14px}
-main{padding:14px;max-width:640px;margin:auto}h2{margin:6px 0 14px;font-size:21px;white-space:pre-line}
-.btn{display:block;width:100%;padding:18px;margin:0 0 10px;border:0;border-radius:12px;background:#0b5f73;color:#fff;font-size:20px}
-.btn.alt{background:#fff;color:#0b5f73;border:2px solid #0b5f73}.btn.small{display:inline-block;width:auto;padding:8px 16px;font-size:16px;margin:0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .btn{margin:0;padding:16px 6px;font-size:17px}
-input{width:100%;padding:14px;font-size:20px;border:2px solid #c9d6da;border-radius:10px;margin-bottom:12px}label{display:block;margin:4px 0}
-.pin{text-align:center;letter-spacing:10px;font-size:28px}.row{background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:8px;border-right:6px solid #c9d6da}
-.row.ed{border-right-color:#e8a317}.row.mt{border-right-color:#e8a317;background:#fffbe6}.row small{color:#5b6e75;display:block}.val{font-size:19px;margin:2px 0 6px}
-.tag{background:#e8a317;border-radius:6px;padding:1px 8px;font-size:13px}.err{color:#b3261e;margin:6px 0}
-.res{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px}.bad{background:#fde7c8}.hot{background:#f8cbad}.ok{background:#c6efce}
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#fff7f2;color:#2a1a12;font-size:18px}
+header{background:#f84000;color:#fff;padding:8px 10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:5}
+header img{width:38px;height:38px;border-radius:50%;background:#fff}header b{flex:1;font-size:16px;line-height:1.2}header small{display:block;font-weight:normal;font-size:12px}
+.hb{background:#fff3;border:1px solid #fff9;color:#fff;border-radius:8px;padding:6px 9px;font-size:15px;display:none}#sy{display:block}
+main{padding:14px;max-width:660px;margin:auto}h2{margin:6px 0 14px;font-size:21px;white-space:pre-line}h3{margin:14px 0 6px}
+.btn{display:block;width:100%;padding:16px;margin:0 0 10px;border:0;border-radius:12px;background:#f84000;color:#fff;font-size:19px}
+.btn.alt{background:#fff;color:#c93400;border:2px solid #f84000}.btn.sm{display:inline-block;width:auto;padding:8px 16px;font-size:15px;margin:0}
+.btn img{width:100%;border-radius:8px;margin-bottom:6px;background:#fff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .btn{margin:0;padding:12px 6px;font-size:16px}
+input,select{width:100%;padding:13px;font-size:19px;border:2px solid #f0c9b8;border-radius:10px;margin-bottom:10px;background:#fff}label{display:block;margin:4px 0;font-size:16px}
+.row{background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:8px;border-right:6px solid #f0c9b8}.row.ed{border-right-color:#e8a317}.row.mt{border-right-color:#e8a317;background:#fffbe6}
+.row small{color:#7a5a4a;display:block}.val{font-size:19px;margin:2px 0 6px;word-break:break-word}.tag{background:#e8a317;border-radius:6px;padding:1px 8px;font-size:13px}
+.err{color:#b3261e;margin:6px 0}.res{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px}.bad{background:#fde7c8}.hot{background:#f8cbad}.ok{background:#c6efce}.lo{background:#d6e8ff}
+.bar{height:8px;background:#ffd9c9;border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:#f84000}.pc{font-size:14px;color:#7a5a4a;margin:3px 0 10px}
+.vr{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#fff;border-radius:10px;padding:8px;margin-bottom:8px;align-items:center}.vr img{width:100%;max-height:90px;object-fit:cover;border-radius:8px}.vr img.big{max-height:none;position:relative}
+.vi .btn{padding:9px;font-size:15px;margin:4px 0 0}.okm{color:#1f8a4c;font-size:14px}
+.dg{position:relative;margin-bottom:10px}.dg img{width:100%;border-radius:8px;display:block}.hl{position:absolute;border:3px solid #f84000;background:#f8400033;border-radius:6px;box-shadow:0 0 0 2px #fff}
+.pt{position:fixed;inset:0;background:#000a;z-index:9;display:flex;align-items:flex-end}.pt>div{background:#fff;border-radius:16px 16px 0 0;padding:14px;width:100%;max-height:80vh;overflow:auto}
+.st{padding:8px;border-bottom:1px solid #eee}.st.d{color:#1f8a4c}.st.c{color:#f84000;font-weight:bold}
+iframe{width:100%;height:220px;border:0;border-radius:10px}
 </style></head><body>
-<header><b>صيانة المحولات</b><span id="bd"></span><button id="bk" onclick="bk&&bk()">رجوع</button></header>
+<header><img src="img/logo.png" alt=""><b>صيانة المحولات<small>شمال الدلتا لتوزيع الكهرباء NDEDC</small></b><span id="bd" style="font-size:12px"></span><button id="sy" class="hb" onclick="sync(1)">🔄</button><button id="pg" class="hb" onclick="prog()">☰</button><button id="hm" class="hb" onclick="HM&&HM()">🏠</button><button id="bk" class="hb" onclick="BK&&BK()">رجوع</button></header>
 <main id="m"></main>
 <script>
 const API='https://script.google.com/macros/s/AKfycbx0E9Ti7p3g_ZXk-QSU7s2hPDyp3eVIdHYjl5Xtrm-uQV8MLg3pp5rD3JN9xxLuDvTq0A/exec';
-const LOCK=['رقم داخلي','آخر تعديل بواسطة','وقت آخر تعديل','ملاحظات جودة البيانات'];
-const SEL={'عام/خاص':['عام','خاص'],'التركيب':['كشك','معلق','حجرة','قاعدة'],'الجهد ك.ف':['10.5','11'],'السعة ك ف أ':['25','50','100','160','200','250','315','400','500','630','800','1000','1250','1600','2000']};
-const TAPS={'11':5,'10.5':7}; // مؤقت: تأكد منه من لوحات المحولات
-const DIST='بُعد مسافة المحول عن مصدر التغذية (كم)';
 const $=s=>document.querySelector(s),m=$('#m');
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const dg=s=>String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^\d.]/g,'').replace(/(\..*)\./g,'$1');
 const db=new Promise(r=>{const q=indexedDB.open('tr',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>r(q.result)});
-const kv=(md,k,v)=>db.then(d=>new Promise(r=>{const o=d.transaction('kv',md=='get'?'readonly':'readwrite').objectStore('kv'),q=md=='get'?o.get(k):o.put(v,k);q.onsuccess=()=>r(q.result)}));
+const kv=(md,k,v)=>db.then(d=>new Promise(r=>{const o=d.transaction('kv',md=='get'?'readonly':'readwrite').objectStore('kv'),q=md=='get'?o.get(k):md=='del'?o.delete(k):o.put(v,k);q.onsuccess=()=>r(q.result)}));
 const api=b=>fetch(API,{method:'POST',body:JSON.stringify({pin:S.pin,...b})}).then(r=>r.json());
 const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tr'+t)))].map(x=>x.toString(16).padStart(2,'0')).join('');
-let S={pin:'',user:null,h:[],rows:[],ops:[],ph:[],done:[]},cur={},bk=null,H=[],busy=0;
+let S={pin:'',user:null,h:[],rows:[],q:[],th:[],cfgv:{},lists:{},feeders:[],thumbs:{},srt:[],done:[],ops:[],ph:[]},cur={},FL=null,PV={},H=[],BK=null,HM=null,busy=0;
+const cfg=k=>{const v=parseFloat((S.cfgv||{})[k]);return isNaN(v)?0:v};
 const B=(t,f,c='')=>{H.push(f);return `<button class="btn ${c}" onclick="H[${H.length-1}]()">${t}</button>`};
-const show=(h,b)=>{m.innerHTML=h;bk=b||null;$('#bk').style.display=b?'block':'none';scrollTo(0,0)};
 const col=n=>S.h.indexOf(n),row=id=>S.rows.find(r=>r[0]===id),val=(id,f)=>{const r=row(id),i=col(f);return r&&i>=0&&r[i]!=null?String(r[i]):''};
 const save=()=>Promise.all([kv('put','ops',S.ops),kv('put','ph',S.ph)]).then(badge);
-const badge=()=>{const n=S.ops.length+S.ph.length;$('#bd').textContent=(navigator.onLine?'':'بدون نت · ')+(n?'لسه '+n+' ما اترفعوش':'اتزامن ✓')};
-// الحسابات بنفس معادلات الإكسيل
-const calc=(R,S2,T,cap)=>{const a=(R+S2+T)/3,N=Math.max(R,S2,T)-a,L=cap?Math.round(a/(cap*1.44)*100):null,dev=a?Math.max(Math.abs(R-a),Math.abs(S2-a),Math.abs(T-a))/a:0;
- const adv=[['R',R],['S',S2],['T',T]].map(([n,x])=>a&&(x-a)/a>.05?'خفّف '+n+' حوالي '+Math.round(x-a)+' أمبير':a&&(a-x)/a>.05?'زوّد '+n+' حوالي '+Math.round(a-x)+' أمبير':null).filter(Boolean);
- return{a,N,L,bal:dev<=.05,adv}};
-async function sync(){if(busy||!navigator.onLine||!S.pin)return;busy=1;try{
- if(S.ops.length){const r=await api({a:'sync',ops:S.ops});if(r.ok)S.ops=S.ops.filter(o=>!r.done.includes(o.uid))}
- for(const p of [...S.ph]){const r=await api({a:'photo',...p});if(r.ok)S.ph=S.ph.filter(x=>x.uid!==p.uid);else break}}catch(e){}busy=0;save()}
-setInterval(sync,30000);addEventListener('online',()=>{badge();sync()});addEventListener('offline',badge);
+const badge=()=>{const n=S.ops.length+S.ph.length;$('#bd').textContent=(navigator.onLine?'':'بدون نت · ')+(n?'لسه '+n:'اتزامن ✓')};
+const op=o=>{S.ops.push({uid:uid(),visit:FL&&FL.visit,id:cur.id,...o});save();sync()};
+const D=()=>FL.data,fkey=()=>cur.id+'|'+cur.mode+'|'+(cur.qm||'');
+function show(h,o={}){const f=o.fl&&FL,lo=f&&cur.mode=='loads',p=f?fpct():0;
+ BK=o.b||(lo?fback:null);HM=o.h||(lo?()=>card(cur.id):null);
+ m.innerHTML=(f?`<div class="bar"><i style="width:${p}%"></i></div><div class="pc">${p}% — ${p<30?'بداية موفقة':p<60?'ماشي كويس':p<90?'قربت تخلص':'خلاص تقريبًا'}</div>`:'')+h;
+ $('#bk').style.display=BK?'block':'none';$('#hm').style.display=HM?'block':'none';$('#pg').style.display=f?'block':'none';scrollTo(0,0)}
+const toast=t=>{const d=document.createElement('div');d.textContent=t;d.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2a1a12;color:#fff;padding:10px 18px;border-radius:20px;z-index:20';document.body.appendChild(d);setTimeout(()=>d.remove(),2200)};
+async function sync(man){if(busy||!S.pin)return;if(!navigator.onLine){man&&toast('مفيش نت دلوقتي');return}busy=1;man&&toast('جاري المزامنة...');let ok=1;try{
+ if(S.ops.length){const r=await api({a:'sync',ops:S.ops});if(r.ok)S.ops=S.ops.filter(o=>!r.done.includes(o.uid));else ok=0}
+ for(const p of [...S.ph]){const r=await api({a:'photo',...p});if(r.ok)S.ph=S.ph.filter(x=>x.uid!==p.uid);else{ok=0;break}}}catch(e){ok=0}busy=0;await save();man&&toast(ok?'اتزامن ✓':'تعذرت المزامنة')}
+setInterval(()=>sync(),30000);addEventListener('online',()=>{badge();sync()});addEventListener('offline',badge);
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
-// الدخول
-function pin(msg){show(`<h2>اكتب الرقم السري</h2><input id="p" class="pin" type="password" inputmode="numeric" maxlength="8" oninput="this.value.length==4&&login()"><div class="err">${msg||''}</div>`+B('دخول',login))}
+// ---------- الدخول والاختيار ----------
+function pin(msg){show(`<h2>اكتب الرقم السري</h2><input id="p" type="password" inputmode="numeric" maxlength="8" style="text-align:center;letter-spacing:10px;font-size:28px" oninput="this.value=dg(this.value);this.value.length==4&&login()"><div class="err">${msg||''}</div>`+B('دخول',login))}
+function load(b){Object.assign(S,{h:b.h,rows:b.rows,q:(b.q||[]).filter(r=>r[1]),th:(b.th||[]).filter(r=>r[0]),cfgv:b.cfg||{},lists:b.lists||{},feeders:b.feeders||[],thumbs:b.thumbs||{},srt:b.srt||[],done:b.done||[]})}
 async function login(){const p=$('#p').value.trim();if(p.length<4)return;S.pin=p;show('<h2>لحظة...</h2>');
- try{const r=await api({a:'login'});if(!r.ok)return pin('الرقم غير صحيح');S.user=r.user;await kv('put','auth',{h:await sha(p),u:r.user});
-  const b=await api({a:'boot'});if(b.ok){S.h=b.h;S.rows=b.rows;S.q=b.q.filter(r=>r[0]);S.th=b.th.filter(r=>r[0]);S.cfg=b.cfg;S.lists=b.lists;S.done=b.done||[];kv('put','done',S.done);await kv('put','data',b)}}
+ try{const r=await api({a:'login'});if(!r.ok)return pin('الرقم غير صحيح');S.user=r.user;await kv('put','auth',{h:await sha(p),u:r.user});const b=await api({a:'boot'});if(b.ok){load(b);await kv('put','data',b)}}
  catch(e){const a=await kv('get','auth');if(!a||a.h!==await sha(p))return pin('مفيش نت والرقم مش محفوظ على الجهاز');S.user=a.u}
- const d=await kv('get','data');if(!S.h.length&&d){S.h=d.h;S.rows=d.rows;S.q=d.q;S.th=d.th;S.cfg=d.cfg;S.lists=d.lists;S.done=(await kv('get','done'))||[]}
+ if(!S.h.length){const d=await kv('get','data');if(d)load(d)}
  if(!S.h.length)return pin('افتح التطبيق مرة بنت لتحميل البيانات');
- S.ops=(await kv('get','ops'))||[];S.ph=(await kv('get','ph'))||[];badge();sync();types()}
-// الاختيار
-function types(){if(S.user.role==='إدارة')return adm();show(`<h2>أهلًا ${esc(S.user.name)}\nالمحول عام ولا خاص؟</h2>`+B('عام',()=>feeders('عام'))+B('خاص',()=>feeders('خاص')))}
-function feeders(t){cur.t=t;const fs=[...new Set(S.rows.filter(r=>r[col('عام/خاص')]===t).map(r=>r[col('المغذي')]))].sort();
- show(`<h2>اختار المغذي (${fs.length})</h2><input id="q" placeholder="ابحث" oninput="dr()"><div class="grid" id="g"></div>`,types);
- window.dr=()=>{const q=$('#q').value.trim();$('#g').innerHTML=fs.filter(f=>String(f).includes(q)).map(f=>B(esc(f),()=>trs(f))).join('')};dr()}
+ S.ops=(await kv('get','ops'))||[];S.ph=(await kv('get','ph'))||[];badge();sync();home()}
+const persistData=()=>kv('put','data',{h:S.h,rows:S.rows,q:S.q,th:S.th,cfg:S.cfgv,lists:S.lists,feeders:S.feeders,thumbs:S.thumbs,srt:S.srt,done:S.done});
+function home(){FL=null;if(S.user.role==='إدارة')return adm();show(`<h2>أهلًا ${esc(S.user.name)}</h2>`+B('📊 الأحمال والاتزان (ربع سنوي)',()=>{cur.mode='loads';qsel()})+B('🔧 صيانة المنخفض (سنوية)',()=>{cur.mode='maint';cur.qm='';types()}))}
+function qsel(){show('<h2>اختار دورة الأحمال</h2>'+['يوليو','أكتوبر','يناير','أبريل'].map(x=>B(x,()=>{cur.qm=x;types()})).join(''),{b:home})}
+function types(){FL=null;show('<h2>المحول عام ولا خاص؟</h2>'+B('عام',()=>feeders('عام'))+B('خاص',()=>feeders('خاص')),{b:cur.mode=='loads'?qsel:home})}
+const fnames=()=>[...new Set([...S.feeders.map(f=>f[0]),...S.rows.map(r=>r[col('المغذي')])])].filter(Boolean).sort();
+const srcOf=f=>(S.feeders.find(x=>x[0]==f)||[])[1]||(S.rows.find(r=>r[col('المغذي')]==f)||[])[col('مصدر التغذية')]||'';
+function feeders(t){cur.t=t;const fs=[...new Set(S.rows.filter(r=>r[col('عام/خاص')]===t).map(r=>r[col('المغذي')]).concat(S.feeders.map(x=>x[0])))].filter(Boolean).sort();
+ show(`<h2>اختار المغذي (${fs.length})</h2><input id="q" placeholder="ابحث" oninput="dr()">`+B('➕ إضافة مغذي جديد',addFeeder,'alt')+'<div class="grid" id="g"></div>',{b:types,h:types});
+ window.dr=()=>{const q=$('#q').value.trim();$('#g').innerHTML=fs.filter(f=>f.includes(q)).map(f=>B(esc(f),()=>trs(f))).join('')};dr()}
+function addFeeder(){const so=optList('مصادر التغذية');show('<h2>إضافة مغذي جديد</h2><label>اسم المغذي</label><input id="fn"><label>مصدر التغذية</label><select id="fs">'+so.map(x=>`<option>${esc(x)}</option>`).join('')+'</select><div id="er" class="err"></div>'+B('حفظ',()=>{const n=$('#fn').value.trim();if(!n)return $('#er').textContent='اكتب اسم المغذي';const s=$('#fs').value;S.feeders.push([n,s]);op({t:'addfeeder',name:n,src:s});persistData();feeders(cur.t)}),{b:()=>feeders(cur.t),h:types})}
 function trs(f){cur.f=f;const ts=S.rows.filter(r=>r[col('عام/خاص')]===cur.t&&r[col('المغذي')]===f);
- show(`<h2>${esc(f)}: اختار المحول (${ts.length})</h2><input id="q" placeholder="ابحث" oninput="dr()"><div class="grid" id="g"></div>`,()=>feeders(cur.t));
- window.dr=()=>{const q=$('#q').value.trim();$('#g').innerHTML=ts.filter(r=>String(r[col('اسم المحول')]).includes(q)).map(r=>B((S.done.includes(r[0])?'✓ ':'')+esc(r[col('اسم المحول')]),()=>{cur.chg={};cur.adm?rep(r[0]):card(r[0])})).join('')};dr()}
-// البطاقة والتعديل
-function card(id){cur.id=id;if(cur.vid!==id){cur.vid=id;cur.visit='V'+Date.now()}let fs=S.h.filter(h=>!LOCK.includes(h));if(!fs.includes(DIST))fs.unshift(DIST);
- show(`<h2>${esc(val(id,'اسم المحول'))}</h2>`+B('▶ ابدأ الزيارة',visit)+B('📊 الأحمال والاتزان',()=>{cur.ph='before';L0()})+fs.map(f=>{const v=val(id,f),ch=cur.chg&&f in cur.chg;
-  return `<div class="row ${ch?'ed':''} ${v===''?'mt':''}"><small>${esc(f)}</small><div class="val">${v===''?'ناقص':esc(v)}${ch?` <span class="tag">عُدّل (كان: ${esc(cur.chg[f]||'فارغ')})</span>`:''}</div>${B('تعديل',()=>edit(f),'small alt')}</div>`}).join(''),()=>trs(cur.f))}
-function setv(id,f,v){let i=col(f);if(i<0){S.h.push(f);i=S.h.length-1}const o=val(id,f);if(o===v)return;row(id)[i]=v;(cur.chg=cur.chg||{})[f]=o;S.ops.push({uid:uid(),t:'edit',id,f,v,ts:Date.now()});kv('put','data',{h:S.h,rows:S.rows});save();sync()}
-function edit(f){const id=cur.id,o=val(id,f);let ops=SEL[f];if(f==='وضع الـ Tap'){const n=cfg('عدد أوضاع Tap لجهد '+val(id,'الجهد ك.ف'));ops=n?Array.from({length:n},(_,k)=>String(k+1)):null}
- if(ops)return show(`<h2>${esc(f)}</h2>`+ops.map(x=>B(x,()=>{setv(id,f,x);card(id)},x===o?'alt':'')).join(''),()=>card(id));
- show(`<h2>${esc(f)}</h2><input id="v" value="${esc(o)}" ${f===DIST?'inputmode="decimal" placeholder="مثال 7.5"':''}><div id="er" class="err"></div>`+B('حفظ',()=>{const v=$('#v').value.trim();
-  if(f===DIST&&!/^\d(\.\d)?$/.test(v))return $('#er').textContent='من 0 إلى 9.9 وخانة عشرية واحدة، مثال 7.5';setv(id,f,v);card(id)}),()=>card(id))}
-// الأحمال
-function ask(t,ks,ok,skip){show(`<h2>${t}</h2>`+ks.map(k=>`<label>${k}</label><input id="i${k}" inputmode="decimal">`).join('')+'<div id="er" class="err"></div>'+B('التالي',()=>{const v={};for(const k of ks){const x=parseFloat($('#i'+k).value);if(isNaN(x)||x<0)return $('#er').textContent='اكتب رقم صحيح';v[k]=x}ok(v)})+(skip?B('تخطي',()=>ok(null),'alt'):''),()=>card(cur.id))}
-function L0(){cur.L={ph:cur.ph};show('<h2>فيه قاطع عمومي؟</h2>'+B('نعم',()=>{cur.L.brk=1;ask('سعة القاطع العمومي (أمبير)',['cap'],v=>{cur.L.cap=v.cap;ask('الحمل عند القاطع (أمبير)',['R','S','T'],v=>ask('جهد بداية القاطع (فولت) عند خروجه',['R','S','T'],w=>{Object.assign(cur.L,{vr:w.R,vs:w.S,vt:w.T});vchk(w);L3(v)}))})})
- +B('لا',()=>{cur.L.brk=0;cur.L.sum={R:0,S:0,T:0};LS(1)},'alt'),()=>card(cur.id))}
-function LS(i){const n=parseInt(val(cur.id,'عدد السورتيهات'))||1;ask(`حمل السورتيه ${i} من ${n} (أمبير)`,['R','S','T'],v=>{['R','S','T'].forEach(k=>cur.L.sum[k]+=v[k]);i<n?LS(i+1):L3(cur.L.sum)})}
-function L3(v){const c=calc(v.R,v.S,v.T,parseFloat(val(cur.id,'السعة ك ف أ')));Object.assign(cur.L,{R:v.R,S:v.S,T:v.T,c});
- ask(`حمل N المقيس (أمبير)\nالمعادلة قالت: ${c.N.toFixed(1)}`,['N'],x=>{cur.L.nm=x?x.N:'';res()},1)}
-function res(){const l=cur.L;S.ops.push({uid:uid(),t:'loads',id:cur.id,ph:l.ph,brk:l.brk,cap:l.cap||'',R:l.R,S:l.S,T:l.T,nm:l.nm,vr:l.vr,vs:l.vs,vt:l.vt});save();sync();resShow()}
-function resShow(){const l=cur.L,c=l.c,hot=c.L>80,nw=l.nm!==''&&l.nm>0.1*c.a;
- show(`<h2>النتيجة (${l.ph==='after'?'بعد الاتزان':'قبل الاتزان'})</h2><div class="res">المتوسط: ${c.a.toFixed(1)} أمبير<br>حمل N بالمعادلة: ${c.N.toFixed(1)}${l.nm!==''?' · المقيس: '+l.nm:''}<br>نسبة التحميل: ${c.L===null?'—':c.L+'%'}</div>`
-  +`<div class="res ${c.bal?'ok':'bad'}">${c.bal?'المحول متزن ✓':'المحول غير متزن: '+c.adv.join(' · ')}</div>`+(hot?'<div class="res hot">نسبة التحميل أكبر من 80%: اتسجل في «محولات محملة»</div>':'')+(nw?'<div class="res bad">N المقيس أكبر من 10% من المتوسط. راجعه مع المعادلة</div>':'')
-  +(cur.vwarn?'<div class="res bad">'+cur.vwarn+'</div>':'')+B('📷 صوّر بنسة الأمبير',()=>shot('بنسة_أمبير_'+l.ph,()=>resShow()))+(!c.bal&&l.ph==='before'?'<div class="res">الاتزان هيتعمل في مرحلة الصيانة بعد الفحص</div>':'')+B('تم',()=>cur.next?cur.next():card(cur.id),'alt'),()=>card(cur.id))}
-// الصور
-const shrink=f=>new Promise(r=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1280/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.7).split(',')[1])};i.src=URL.createObjectURL(f)});
-function shot(kind,cb){const f=document.createElement('input');f.type='file';f.accept='image/*';f.setAttribute('capture','environment');
- f.onchange=async()=>{if(!f.files[0])return;const b=await shrink(f.files[0]);cur.lastb64=b;S.ph.push({uid:uid(),id:cur.id,visit:cur.visit,kind,b64:b});await save();sync();cb()};f.click()}
-
-// الزيارة الكاملة + الإدارة. يعتمد على index.html. كل الأسئلة والنماذج تُقرأ من صفحات الـ Sheet.
-const cfg=k=>{const v=parseFloat((S.cfg||{})[k]);return isNaN(v)?0:v};
-const norm=s=>String(s).replace(/\s+/g,'').toUpperCase();
+ show(`<h2>${esc(f)}: اختار المحول (${ts.length})</h2><input id="q" placeholder="ابحث" oninput="dr()">`+B('➕ إضافة محول جديد',newTr,'alt')+'<div id="g"></div>',{b:()=>feeders(cur.t),h:types});
+ window.dr=()=>{const q=$('#q').value.trim();$('#g').innerHTML=ts.filter(r=>String(r[col('اسم المحول')]).includes(q)).map(r=>B(`<span style="display:flex;align-items:center;gap:10px">${S.thumbs[r[0]]?`<img style="width:46px;height:46px;border-radius:8px;margin:0" src="data:image/jpeg;base64,${S.thumbs[r[0]]}">`:'<span style="font-size:28px">⚡</span>'}<span style="flex:1;text-align:right">${S.done.includes(r[0])?'✓ ':''}${esc(r[col('اسم المحول')])}</span></span>`,()=>cur.adm?rep(r[0]):card(r[0]))).join('')};dr()}
+function newTr(){show('<h2>إضافة محول جديد</h2><label>اسم المحول</label><input id="nn"><div id="er" class="err"></div>'+B('التالي (إدخال البيانات)',()=>{const n=$('#nn').value.trim();if(!n)return $('#er').textContent='اكتب اسم المحول';const id='TR-N'+Date.now().toString(36),r=S.h.map(()=>'');const set=(k,v)=>{const i=col(k);if(i>=0)r[i]=v};set('رقم داخلي',id);set('اسم المحول',n);set('عام/خاص',cur.t);set('المغذي',cur.f);set('مصدر التغذية',srcOf(cur.f));
+ S.rows.push(r);const o={};S.h.forEach((h,i)=>o[h]=r[i]);op({t:'addtr',id,row:o});persistData();cur.fresh=1;card(id)}),{b:()=>trs(cur.f),h:types})}
+// ---------- بطاقة المحول ----------
+const optList=n=>{const a=(S.lists[n]||[]).map(String),c=col(n);if(c>=0)S.rows.forEach(r=>{const v=String(r[c]??'');if(v&&!a.includes(v))a.push(v)});return a};
 const kr=()=>/كشك|حجرة/.test(val(cur.id,'التركيب'));
-const CF=['التركيب','عدد السورتيهات','كود المحول','كود لوحة المنخفض','كود لوحة المتوسط','الجهد ك.ف','وضع الـ Tap','السعة ك ف أ','نوع المحول'];
-const SECS=['صور الموقع','المحول','الزيت','الملحقات','الأرضي','السورتيهات','الخط الهوائي','العدادات','السلامة','الوثائق','الحالة','الكشك والحجرة'];
-const DEP={Q04:['Q03','نعم'],Q06:['Q05','نعم'],Q10:['Q09','نعم'],Q13:['Q12','نعم'],Q14:['Q12','نعم']};
-const op=o=>{S.ops.push({uid:uid(),visit:cur.visit,id:cur.id,...o});save()};
-const ps=(l,i,next)=>i>=l.length?next():show(`<h2>${l[i][0]}</h2>`+B('📷 صوّر',()=>shot(l[i][1],()=>ps(l,i+1,next))));
-function visit(){cur.ans={};cur.def=[];cur.before={};cur.next=null;op({t:'visit',st:'بدأت'});conf(-1)}
-// S06 اختبار التأكيد
-function conf(i){if(i>=CF.length)return gps();const f=i<0?DIST:CF[i],id=cur.id,reg=val(id,f);
- if(f==='كود لوحة المتوسط'&&!kr())return conf(i+1);
- let o=SEL[f];if(f==='عدد السورتيهات')o=['1','2','3','4','5'];if(f==='نوع المحول')o=S.lists['نوع المحول'];
- if(f==='وضع الـ Tap'){const n=cfg('عدد أوضاع Tap لجهد '+val(id,'الجهد ك.ف'));o=n?Array.from({length:n},(_,k)=>String(k+1)):null}
- const done=v=>{v=String(v).trim();if(!v)return;if(f===DIST&&(!/^\d(\.\d)?$/.test(v)||parseFloat(v)>(cfg('أقصى مسافة (كم)')||9.9)))return $('#er').textContent='من 0 إلى 9.9 وخانة عشرية واحدة';
-  if(norm(reg)!==norm(v)){setv(id,f,v);S.ops[S.ops.length-1].src='اختبار التأكيد '+(reg===''?'(جديد)':'(معدّل)');save()}conf(i+1)};
- const t=`<h2>${esc(f)}؟\n(اكتب أو اختار اللي قدامك في الموقع)</h2>`;
- if(o)return show(t+o.map(x=>B(esc(x),()=>done(x))).join(''));
- show(t+'<input id="v" inputmode="'+(f===DIST?'decimal':'text')+'"><div id="er" class="err"></div>'+B('التالي',()=>done($('#v').value))+(/كود/.test(f)?B('مفيش كود في الموقع',()=>{if(reg!=='')op({t:'alert',f:f+' مسجل وغير موجود في الموقع',reg});conf(i+1)},'alt'):''))}
-function gps(){show('<h2>وقف قرب المحول واضغط</h2><div id="er" class="err"></div>'+B('📍 خد موقعي',()=>{$('#er').textContent='بيقرأ الموقع...';navigator.geolocation.getCurrentPosition(p=>{setv(cur.id,'X',p.coords.longitude.toFixed(6));setv(cur.id,'Y',p.coords.latitude.toFixed(6));run(['صور الموقع'],th0)},()=>$('#er').textContent='الموقع مش متاح. اطلع مكان مفتوح وجرّب تاني',{enableHighAccuracy:true,timeout:20000})}))}
-// محرك الأسئلة S08A وS13 إلى S20A
-function tasks(secs){const mt=val(cur.id,'التركيب'),n=parseInt(val(cur.id,'عدد السورتيهات'))||1,t=[];
+const FLD=[['قرية / كفر','list','القرى والكفور'],['مصدر التغذية','list','مصادر التغذية'],['لوحة التوزيع','list','لوحة التوزيع'],['تغذية متوسط','list','@f'],['المغذي','list','@f'],['اسم المحول','lock'],['عام/خاص','sel',['عام','خاص']],['كود المحول','text'],['كود لوحة المنخفض','text'],['كود لوحة المتوسط','text'],['نوع المحول','list','نوع المحول'],['التركيب','sel',['كشك','معلق','حجرة','قاعدة']],['وضع الـ Tap','tap'],['الجهد ك.ف','sel',['10.5','11']],['السعة ك ف أ','list','السعات ك ف أ'],['عدد السورتيهات','num'],['سنة صنع المحول','year'],['بُعد مسافة المحول عن مصدر التغذية (كم)','dist'],['سعة القاطع العمومي (أمبير)','num'],['نموذج حرارة المتوسط','model'],['نموذج حرارة المنخفض','model']];
+const DIST='بُعد مسافة المحول عن مصدر التغذية (كم)';
+const vDist=v=>/^\d(\.\d)?$/.test(v)&&+v<=(cfg('أقصى مسافة (كم)')||9.9)?'':'رقم من 0 إلى 9.9 وخانة عشرية واحدة فقط (مثال 7.5)';
+const calc=(R,S2,T,cap)=>{const a=(R+S2+T)/3,N=Math.max(R,S2,T)-a,L=cap?Math.round(a/(cap*1.44)*100):null,dev=a?Math.max(Math.abs(R-a),Math.abs(S2-a),Math.abs(T-a))/a:0;
+ const adv=[['R',R],['S',S2],['T',T]].map(([n,x])=>a&&(x-a)/a>.05?'خفّف '+n+' حوالي '+Math.round(x-a)+' أمبير':a&&(a-x)/a>.05?'زوّد '+n+' حوالي '+Math.round(a-x)+' أمبير':null).filter(Boolean);return{a,N,L,bal:dev<=.05,adv}};
+const lvl=L=>L==null?'':L>(cfg('حد التحميل الأعلى %')||80)?'<span class="tag" style="background:#f8cbad">فوق '+(cfg('حد التحميل الأعلى %')||80)+'%</span>':L<(cfg('حد التحميل الأدنى %')||30)?'<span class="tag" style="background:#d6e8ff">أقل من '+(cfg('حد التحميل الأدنى %')||30)+'%</span>':'';
+async function flowLoad(){const sv=await kv('get','fl:'+fkey());FL={key:fkey(),done:sv?sv.done:{},data:sv?sv.data:{},cur:sv?sv.cur:null,visit:sv?sv.visit:'V'+Date.now(),fresh:!sv}}
+async function card(id){cur.id=id;await flowLoad();const nm=val(id,'اسم المحول'),mode=cur.mode,L=stepsList();let pr='';
+ if(!FL.fresh){const p=fpct(),c=L.find(x=>x.id==FL.cur)||L.find(x=>!FL.done[x.id]);pr=`<div class="res"><b>آخر مرة: ${p}% ${p<30?'🌱':p<60?'👍':'🔥'}</b><div class="bar"><i style="width:${p}%"></i></div>${c?'وقفت عند: '+esc(c.t):'خلصت كل الخطوات'}</div>`+B('▶ كمّل من حيث وقفت',()=>fgo(c&&c.id))+B('عرض كل الخطوات',()=>{HM=null;prog()},'alt')+B('↺ ابدأ من الأول',()=>{FL.done={};FL.data={};FL.visit='V'+Date.now();fsave();fgo()},'alt')}
+ else pr=B(mode=='loads'?'▶ ابدأ الأحمال والاتزان ('+cur.qm+')':'▶ ابدأ الصيانة',()=>fgo());
+ const fs=FLD.map(([f,t,o])=>{const v=val(id,f),ch=cur.chg&&f in cur.chg;return `<div class="row ${ch?'ed':''} ${v===''&&t!='lock'?'mt':''}"><small>${esc(f)}</small><div class="val">${v===''?'ناقص':esc(v)}${ch?` <span class="tag">عُدّل (كان: ${esc(cur.chg[f]||'فارغ')})</span>`:''}</div>${t=='lock'?'':B('تعديل',()=>edit(f),'sm alt')}</div>`}).join('');
+ const R=+val(id,'حمل العمومي R'),S2=+val(id,'حمل العمومي S'),T=+val(id,'حمل العمومي T'),Ld=val(id,'نسبة التحميل %'),ca=(R||S2||T)?calc(R,S2,T,+val(id,'السعة ك ف أ')):null;
+ const ld=`<div class="res"><small>الأحمال (من آخر دورة)</small>حمل العمومي: R ${val(id,'حمل العمومي R')||'—'} · S ${val(id,'حمل العمومي S')||'—'} · T ${val(id,'حمل العمومي T')||'—'}<br>نسبة التحميل: ${ca&&ca.L!=null?ca.L+'%':Ld||'—'} ${lvl(ca?ca.L:+Ld||null)}<br>الاتزان: ${ca?(ca.bal?'متزن':'غير متزن'):'—'}<br>جهد المحول الثانوي: ${esc(val(id,'الجهد ك.ف')||'—')}</div>`;
+ const X=val(id,'X'),Y=val(id,'Y'),mp=X&&Y?(navigator.onLine?`<iframe loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=${+X-.004},${+Y-.003},${+X+.004},${+Y+.003}&layer=mapnik&marker=${Y},${X}"></iframe>`:`<div class="res">الموقع: ${Y}, ${X} (الخريطة محتاجة نت)</div>`):'<div class="res">الموقع لسه ما اتسجلش</div>';
+ show(`<h2>${esc(nm)}</h2><div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">${S.thumbs[id]?`<img style="width:80px;height:80px;border-radius:10px" src="data:image/jpeg;base64,${S.thumbs[id]}">`:'<div style="font-size:50px">⚡</div>'}${B('📷 صورة المحول',()=>grab('صورة_المحول',b=>{thumb(b);card(id)}),'sm alt')}</div>`+pr+'<h3>بيانات المحول</h3>'+fs+ld+mp,{b:()=>trs(cur.f),h:types})}
+function thumb(b){const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=c.height=96;const x=c.getContext('2d'),k=Math.max(96/i.width,96/i.height);x.drawImage(i,(96-i.width*k)/2,(96-i.height*k)/2,i.width*k,i.height*k);const t=c.toDataURL('image/jpeg',.6).split(',')[1];S.thumbs[cur.id]=t;op({t:'thumb',id:cur.id,b64:t});S.ph.push({uid:uid(),id:cur.id,visit:'',kind:'صورة_المحول',b64:b});persistData();save();card(cur.id)};i.src='data:image/jpeg;base64,'+b}
+function setv(id,f,v,src){let i=col(f);if(i<0){S.h.push(f);i=S.h.length-1}const o=val(id,f);if(o===v)return;row(id)[i]=v;(cur.chg=cur.chg||{})[f]=o;S.ops.push({uid:uid(),t:'edit',id,f,v,src,ts:Date.now()});
+ if(f=='الجهد ك.ف')setv(id,'جهد المحول الثانوي',v,src);persistData();save();sync()}
+function edit(f){const id=cur.id,o=val(id,f),T=FLD.find(x=>x[0]==f)[1],ar=FLD.find(x=>x[0]==f)[2],back=()=>card(id),opt=(a,add)=>show(`<h2>${esc(f)}</h2>`+a.map(x=>B(esc(x),()=>{setv(id,f,String(x));back()},String(x)==o?'alt':'')).join('')+(add?B('➕ خيار جديد',()=>ent(),'alt'):''),{b:back,h:types});
+ const ent=(chk,num)=>show(`<h2>${esc(f)}</h2><input id="v" value="${esc(o)}" ${num?'inputmode="decimal" oninput="this.value=dg(this.value)"':''}><div id="er" class="err"></div>`+B('حفظ',()=>{const v=$('#v').value.trim();if(!v)return;const e=chk&&chk(v);if(e)return $('#er').textContent=e;setv(id,f,v);back()}),{b:back,h:types});
+ if(T=='sel')return opt(ar);if(T=='list')return opt(ar=='@f'?fnames():optList(ar),1);
+ if(T=='tap'){const n=cfg('عدد أوضاع Tap لجهد '+val(id,'الجهد ك.ف'));return n?opt(Array.from({length:n},(_,k)=>String(k+1))):show('<h2>اختار الجهد الأول</h2>',{b:back,h:types})}
+ if(T=='text')return ent();if(T=='dist')return ent(vDist,1);if(T=='year')return ent(v=>/^(19[5-9]\d|20\d\d)$/.test(v)&&+v<=new Date().getFullYear()?'':'سنة من 4 أرقام (مثال 2015)',1);
+ if(T=='num')return ent(v=>+v>0?'':'اكتب رقم أكبر من صفر',1);
+ if(T=='model'){const mv=/المتوسط/.test(f),ms=mv?['متوسط A','متوسط B','متوسط C']:['منخفض A','منخفض B'];return show(`<h2>${esc(f)}</h2>`+ms.map(x=>B(`<img src="img/${modelImg(x)}.jpg">${x}`,()=>{setv(id,f,x);back()},x==o?'alt':'')).join(''),{b:back,h:types})}}
+const modelImg=x=>(x[0]=='م'?'mv':'lv')+x.slice(-1);
+// ---------- محرك الخطوات والتقدم ----------
+const fsave=()=>kv('put','fl:'+FL.key,{done:FL.done,data:FL.data,cur:FL.cur,visit:FL.visit,ts:Date.now()});
+const stepsList=()=>(cur.mode=='loads'?ldSteps():maintSteps()).filter(s=>!s.when||s.when());
+const fpct=()=>{const L=stepsList();return L.length?Math.round(L.filter(x=>FL.done[x.id]).length/L.length*100):0};
+function fgo(id){const L=stepsList();const s=id?L.find(x=>x.id==id):L.find(x=>!FL.done[x.id]);if(!s)return fend();FL.cur=s.id;fsave();s.f(()=>{FL.done[s.id]=1;fsave();fgo()})}
+function fback(){const L=stepsList(),i=L.findIndex(x=>x.id==FL.cur);i>0?fgo(L[i-1].id):card(cur.id)}
+function prog(){const L=stepsList(),d=document.createElement('div');d.className='pt';d.innerHTML=`<div><b>التقدم ${fpct()}%</b><div class="bar" style="margin:8px 0"><i style="width:${fpct()}%"></i></div>`+L.map((s,i)=>`<div class="st ${FL.done[s.id]?'d':s.id==FL.cur?'c':''}" data-i="${s.id}">${FL.done[s.id]?'✓':s.id==FL.cur?'◀':'○'} ${esc(s.t)}</div>`).join('')+'<button class="btn alt" style="margin-top:10px" id="px">إغلاق</button><button class="btn alt" id="pe">💾 حفظ والخروج</button></div>';
+ d.onclick=e=>{const t=e.target.closest('.st');if(t&&(FL.done[t.dataset.i]||t.dataset.i==FL.cur)){d.remove();fgo(t.dataset.i)}};document.body.appendChild(d);$('#px').onclick=()=>d.remove();$('#pe').onclick=()=>{d.remove();fsave();card(cur.id)}}
+function fend(){show('<h2>خلصت كل الخطوات ✓</h2>'+B('رجوع لبيانات المحول',()=>card(cur.id)),{h:types})}
+// ---------- المكوّنات ----------
+const shrink=(f,mx=1280)=>new Promise(r=>{const i=new Image();i.onload=()=>{const k=Math.min(1,mx/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.7).split(',')[1])};i.src=URL.createObjectURL(f)});
+function grab(kind,cb){const f=document.createElement('input');f.type='file';f.accept='image/*';f.setAttribute('capture','environment');f.onchange=async()=>{if(f.files[0])cb(await shrink(f.files[0]))};f.click()}
+function setPh(kind,b){S.ph=S.ph.filter(p=>!(p.visit==FL.visit&&p.id==cur.id&&p.kind==kind));S.ph.push({uid:uid(),id:cur.id,visit:FL.visit,kind,b64:b});PV[kind]=b;save();sync()}
+function choice(t,opts,key,next,o={}){const d=D();show(`<h2>${t}</h2>`+(o.pre||'')+opts.map(x=>{const v=typeof x=='object'?x.v:x,l=typeof x=='object'?x.l:x;return B((x.img?`<img src="${x.img}">`:'')+esc(l),()=>{d[key]=v;fsave();next(v)},d[key]==v?'alt':'')}).join(''),{fl:1})}
+function txt(t,key,next,o={}){const d=D();show(`<h2>${t}</h2>${o.pre||''}<input id="tx" value="${esc(d[key]||'')}" ${o.num?'inputmode="decimal" oninput="this.value=dg(this.value)"':''}><div id="er" class="err"></div>`+B('التالي',()=>{const v=$('#tx').value.trim();if(!v&&!o.opt)return $('#er').textContent='مطلوب';const e=o.val&&o.val(v);if(e)return $('#er').textContent=e;d[key]=v;fsave();next(v)})+(o.extra||''),{fl:1})}
+function vp(t,fs,next,o={}){const d=D(),keep=()=>fs.forEach((f,i)=>{const e=document.getElementById('v'+i);if(e)d['v.'+f.k]=e.value});
+ const rowH=(f,i)=>{const id='v'+i,v=d['v.'+f.k]??'',has=d['p.'+f.k],pv=PV[f.kind];return `<div class="vr"><div><label>${esc(f.l)}</label><input id="${id}" inputmode="decimal" value="${esc(v)}" oninput="this.value=dg(this.value)"></div>${f.pic?`<div class="vi">${pv?`<img src="data:image/jpeg;base64,${pv}" onclick="this.classList.toggle('big')">`:has?'<div class="okm">✓ تم التصوير</div>':''}${B(has?'🔁 إعادة التصوير':'📷 صوّر القراءة',()=>{keep();grab(f.kind,b=>{setPh(f.kind,b);d['p.'+f.k]=1;fsave();draw()})})}</div>`:'<div></div>'}</div>`};
+ const go=()=>{keep();for(const f of fs){const v=d['v.'+f.k];if(v===''||v===undefined||isNaN(+v))return $('#er').textContent='اكتب '+f.l;if(f.pic&&!d['p.'+f.k])return $('#er').textContent='صوّر '+f.l+' (لازم صورة)'}fsave();next(fs.map(f=>+d['v.'+f.k]))};
+ const draw=()=>show(`<h2>${t}</h2>${o.pre||''}`+fs.map((f,i)=>rowH(f,i)).join('')+'<div id="er" class="err"></div>'+B('التالي',go),{fl:1});draw()}
+function photoStep(t,kind,next,o={}){const d=D(),drw=()=>{const pv=PV[kind];show(`<h2>${t}</h2>`+(o.ex&&!pv?`<div class="res"><small>مثال للصورة المطلوبة:</small><img src="${o.ex}" style="width:100%"></div>`:'')+(pv?`<img src="data:image/jpeg;base64,${pv}" style="width:100%;border-radius:10px;margin-bottom:10px">`+B('التالي',()=>{d['p:'+kind]=1;fsave();next(pv)})+B('🔁 إعادة التصوير',take,'alt'):B('📷 صوّر',take)),{fl:1})},take=()=>grab(kind,b=>{setPh(kind,b);drw()});drw()}
+function ghost(t,kind,g,next){if(!g||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||PV[kind])return photoStep(t,kind,next);
+ navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(s=>{show(`<h2>${t}</h2><div class="dg"><video id="v" autoplay playsinline style="width:100%;border-radius:10px"></video><img src="data:image/jpeg;base64,${g}" style="position:absolute;inset:0;width:100%;height:100%;opacity:.4;object-fit:cover;pointer-events:none"></div>`+B('📸 التقط',()=>{const v=$('#v'),c=document.createElement('canvas'),k=Math.min(1,1280/Math.max(v.videoWidth,v.videoHeight));c.width=v.videoWidth*k;c.height=v.videoHeight*k;c.getContext('2d').drawImage(v,0,0,c.width,c.height);s.getTracks().forEach(x=>x.stop());setPh(kind,c.toDataURL('image/jpeg',.7).split(',')[1]);photoStep(t,kind,next)}),{fl:1});$('#v').srcObject=s}).catch(()=>photoStep(t,kind,next))}
+// ---------- شاشات الأحمال والنتائج ----------
+const num=k=>+D()['v.'+k];
+const resCard=(R,S2,T,cap,lab)=>{const c=calc(R,S2,T,cap);return `<div class="res"><b>${esc(lab)}</b><br>المتوسط: ${c.a.toFixed(1)} A · حمل N بالمعادلة: ${c.N.toFixed(1)}<br>نسبة التحميل: ${c.L==null?'—':c.L+'%'} ${lvl(c.L)}</div><div class="res ${c.bal?'ok':'bad'}">${c.bal?'متزن ✓':'غير متزن: '+c.adv.join(' · ')}</div>`};
+const capKva=()=>+val(cur.id,'السعة ك ف أ');
+function vchk(a,b,c){const n=cfg('جهد الفاز المقنن (فولت)')||220,hi=n*(1+cfg('حد الجهد الأعلى %')/100),lo=n*(1-cfg('حد الجهد الأدنى %')/100),bad=[['R',a],['S',b],['T',c]].filter(x=>x[1]>hi||x[1]<lo);return bad.length?`<div class="res bad">جهد خارج المسموح (${lo.toFixed(0)} إلى ${hi.toFixed(0)}): ${bad.map(x=>x[0]+'='+x[1]).join(' · ')}</div>`:''}
+function loadSteps(p,lab,L,idx){const d=D(),T=(id,t,f,w)=>L.push({id:p+id,t:lab+': '+t,f,when:w}),ph=[['R','حمل R'],['S','حمل S'],['T','حمل T']];
+ T('I','الأحمال (أمبير)',n=>vp(`${lab}: الأحمال (أمبير)`,ph.map(([a,l])=>({k:p+a,l:l+' (A)',pic:1,kind:`${lab}: ${l}`})),n));
+ T('N','حمل N',n=>{const c=calc(num(p+'R'),num(p+'S'),num(p+'T'),0);vp(`${lab}: حمل N المقيس (أمبير)`,[{k:p+'N',l:'حمل N (A)',pic:1,kind:`${lab}: حمل N`}],n,{pre:`<div class="res">المعادلة قالت: <b>${c.N.toFixed(1)}</b> أمبير (مرجع)</div>`})});
+ T('V','جهد البداية (فولت)',n=>vp(`${lab}: جهد البداية عند خروج القاطع (فولت)`,ph.map(([a,l])=>({k:p+'V'+a,l:'جهد '+a+' (V)',pic:1,kind:`${lab}: جهد ${a}`})),n));
+ T('res','النتيجة',n=>show(`<h2>${lab}: النتيجة</h2>`+resCard(num(p+'R'),num(p+'S'),num(p+'T'),idx?0:capKva(),lab)+vchk(num(p+'VR'),num(p+'VS'),num(p+'VT'))+B('التالي',n),{fl:1}))}
+function srtInit(i){const d=D(),k='s'+i+'.';if(d[k+'init'])return;d[k+'init']=1;const r=S.srt.find(x=>x[0]==cur.id&&+x[1]==i);if(r){d[k+'name']=r[2]||'';d[k+'cbS']=r[3]||'';d[k+'cbL']=r[4]||'';d[k+'ovS']=r[5]||'';d[k+'ovL']=r[6]||'';d[k+'A']=r[7]||''}}
+function sortieSteps(i,L,therm){const d=D(),p='s'+i+'.',nm=()=>d[p+'name']||'سورتيه '+i,T=(id,t,f,w)=>L.push({id:p+id,t:`سورتيه ${i}: ${t}`,f,when:w});
+ T('name','الاسم',n=>{srtInit(i);txt(`سورتيه ${i}: اسم السورتيه`,p+'name',n)});
+ T('ovL','طول الهوائي',n=>txt(`${nm()}: طول الخط الهوائي (متر)\n(اكتب 0 لو مفيش هوائي)`,p+'ovL',n,{num:1}));
+ T('ovS','مقاس الهوائي',n=>choice(`${nm()}: مقاس الهوائي (مم²)`,optList('مقاسات الهوائي'),p+'ovS',n),()=>+d[p+'ovL']>0);
+ T('cbL','طول كابل البداية',n=>txt(`${nm()}: طول كابل بداية السورتيه (متر)`,p+'cbL',n,{num:1}));
+ T('cbS','مقاس كابل البداية',n=>choice(`${nm()}: مقاس كابل البداية (مم²)`,optList('مقاسات الكابل'),p+'cbS',n));
+ T('ph','صورة البداية',n=>photoStep(`صوّر بداية ${esc(nm())}`,`بداية ${nm()}`,n));
+ T('A','سعة القاطع',n=>txt(`${nm()}: سعة قاطع السورتيه (أمبير)`,p+'A',n,{num:1}));
+ loadSteps(p,nm(),L,i);
+ if(therm)thSteps(d.lvm,'s',i).forEach(s=>L.push(s))}
+function srtArr(){const d=D(),n=+d.nS||0,a=[];for(let i=1;i<=n;i++){const p='s'+i+'.';a.push({n:i,name:d[p+'name'],A:d[p+'A'],cbS:d[p+'cbS'],cbL:d[p+'cbL'],ovS:d[p+'ovS'],ovL:d[p+'ovL'],R:num(p+'R'),S:num(p+'S'),T:num(p+'T'),N:num(p+'N'),vr:num(p+'VR'),vs:num(p+'VS'),vt:num(p+'VT')})}return a}
+function totals(){const d=D();if(d.brk=='نعم')return{R:num('m.R'),S:num('m.S'),T:num('m.T')};const a=srtArr();return{R:a.reduce((s,x)=>s+(x.R||0),0),S:a.reduce((s,x)=>s+(x.S||0),0),T:a.reduce((s,x)=>s+(x.T||0),0)}}
+function sumOp(ph){const d=D(),t=totals();op({t:'loads',ph,qm:cur.mode=='loads'?cur.qm:'',brk:d.brk=='نعم'?1:0,cap:d.mcap,R:t.R,S:t.S,T:t.T,nm:d.brk=='نعم'?num('m.N'):'',vr:num('m.VR')||'',vs:num('m.VS')||'',vt:num('m.VT')||'',srt:ph=='before'?srtArr():[]})}
+function coreLoads(L){const d=D(),T=(id,t,f,w)=>L.push({id,t,f,when:w});
+ T('l.n','عدد السورتيهات',n=>choice('عدد السورتيهات؟\n(المسجل: '+(val(cur.id,'عدد السورتيهات')||'غير مسجل')+')',[1,2,3,4,5,6,7,8],'nS',v=>{setv(cur.id,'عدد السورتيهات',String(v),'دورة/زيارة');n()}));
+ T('m.brk','القاطع العمومي',n=>choice('فيه قاطع عمومي؟ (قاطع واحد فقط)',['نعم','لا'],'brk',n));
+ T('m.cap','سعة القاطع العمومي',n=>txt('سعة القاطع العمومي (أمبير)','mcap',v=>{setv(cur.id,'سعة القاطع العمومي (أمبير)',v);n()},{num:1}),()=>d.brk=='نعم');
+ const m=[];loadSteps('m.','العمومي',m,0);m.forEach(s=>{s.when=()=>d.brk=='نعم';L.push(s)});}
+function ldSteps(){const d=D(),L=[];coreLoads(L);for(let i=1;i<=(+d.nS||0);i++)sortieSteps(i,L,false);
+ L.push({id:'l.sum',t:'النتيجة النهائية',f:n=>{const t=totals(),c=calc(t.R,t.S,t.T,capKva());d.unb=!c.bal;sumOp('before');show(`<h2>النتيجة النهائية (${esc(cur.qm)})</h2>`+resCard(t.R,t.S,t.T,capKva(),d.brk=='نعم'?'العمومي':'مجموع السورتيهات')+B('تم',n),{fl:1})}});
+ L.push({id:'l.aft',t:'بعد الاتزان',f:n=>vp('بعد الاتزان: الأحمال (أمبير)',['R','S','T'].map(a=>({k:'a.'+a,l:'حمل '+a+' (A)',pic:1,kind:'بعد الاتزان: حمل '+a})),v=>{const c=calc(...v,capKva());d.aftOk=c.bal;op({t:'loads',ph:'after',qm:cur.qm,brk:d.brk=='نعم'?1:0,cap:d.mcap,R:v[0],S:v[1],T:v[2],nm:'',srt:[]});n()}),when:()=>d.unb});
+ L.push({id:'l.why',t:'سبب عدم الاتزان',f:n=>txt('لسه غير متزن: اكتب السبب','why',v=>{op({t:'maint',key:'سبب عدم الاتزان',note:v});n()}),when:()=>d.unb&&d.aftOk===false});
+ return L}
+// ---------- الحرارة ----------
+const DIM={mvA:[662,449],mvB:[662,449],mvC:[662,505],lvA:[662,525],lvB:[662,468]};
+const MVR={mvA:{'سكينة الكابل 1':[195,145,295,335],'سكينة الكابل 2':[295,145,360,335],'سكينة الكابل 3':[360,145,465,335],'سكينة كابل المحول':[300,60,470,135],'مصهرات الجهد المتوسط':[195,60,300,125]},
+ mvB:{'سكينة الكابل 1':[211,76,342,320],'سكينة الكابل 2':[342,76,471,320],'سكينة الكابل 3':[471,76,581,320],'سكينة كابل المحول':[81,76,211,200],'مصهرات الجهد المتوسط':[81,150,211,320]},
+ mvC:{'سكينة الكابل 1':[190,80,320,410],'سكينة الكابل 2':[340,80,470,410],'سكينة الكابل 3':[505,80,650,410],'سكينة كابل المحول':[30,80,150,230],'مصهرات الجهد المتوسط':[30,230,150,410]}};
+const BAND=[[300,355],[395,445],[445,525]],SX={lvA:[[195,275],[295,375],[415,495],[545,625]],lvB:[[183,278],[278,373],[378,473],[481,576]]};
+function rect(mi,g,i,k,sec){if(mi[0]=='m')return MVR[mi][sec];const bk=BAND[Math.min(k,2)];
+ if(mi=='lvA'){if(g=='main')return[[0,140,100,185],[0,225,100,275],[0,270,100,365]][Math.min(k,2)];if(g=='cap')return[95,bk[0],165,bk[1]];const x=SX.lvA[Math.min(i,4)-1];return[x[0],bk[0],x[1],bk[1]]}
+ if(g=='main')return[0,0,160,235];if(g=='cap')return[100,170,190,335];const x=SX.lvB[Math.min(i,4)-1];return[x[0],170,x[1],430]}
+function dgm(model,g,i,k,sec){const mi=modelImg(model),r=rect(mi,g,i,k,sec),[W,Hh]=DIM[mi];return `<div class="dg"><img src="img/${mi}.jpg">${r?`<div class="hl" style="left:${r[0]/W*100}%;top:${r[1]/Hh*100}%;width:${(r[2]-r[0])/W*100}%;height:${(r[3]-r[1])/Hh*100}%"></div>`:''}</div>`}
+function thSteps(model,grp,idx){const rows=S.th.filter(r=>r[0]==model&&r[4]==grp),L=[];rows.forEach((r,j)=>{const sec=r[1].replace('{i}',idx),name=r[2].replace(/\{i\}/g,idx),k=rows.filter(x=>x[1]==r[1]).indexOf(r),id=`t.${model}.${grp}${idx}.${j}`;
+ L.push({id,t:`${sec}: ${name}`,f:n=>thr(model,grp,idx,sec,name,r[3],k,id,n)})});return L}
+function thr(model,grp,idx,sec,name,pts,k,id,next){const d=D(),amb=num('amb'),lim=cfg('حد الحرارة فوق حرارة الجو (°C)')||20;
+ vp(`${esc(sec)}\n${esc(name)}\nنقاط ${pts}`,['R','S','T'].map(a=>({k:id+a,l:a+' (°C)'})),v=>{const hot=v.some(x=>x-amb>lim);d.hot=(d.hot||[]).filter(h=>h.id!=id);if(hot)d.hot.push({id,m:model,sec,row:name,R:v[0],S:v[1],T:v[2]});op({t:'th',m:model,sec,row:name,R:v[0],S:v[1],T:v[2],amb,hot:hot?1:0});next()},{pre:dgm(model,grp,idx,k,sec)+`<div class="res"><small>الحرارة المسموحة: حرارة الجو (${amb}) + ${lim}</small></div>`})}
+// ---------- أسئلة الفحص ----------
+const NEED=(pw,a)=>pw=='always'||(pw=='bad'&&a=='غير مقبول')||(pw=='yes'&&a=='نعم')||(pw=='no'&&a=='لا')||(pw=='exists'&&a!='لا يوجد'&&a!='لا');
+function qSteps(inc){const d=D(),L=[],mt=val(cur.id,'التركيب'),DEP={Q04:['Q03','نعم'],Q10:['Q09','نعم'],Q13:['Q12','نعم'],Q14:['Q12','نعم'],Q29:['Q30','نعم']};
  const ok=s=>!s||(s=='kr'&&/كشك|حجرة/.test(mt))||(s=='k'&&mt=='كشك')||(s=='r'&&mt=='حجرة')||(s=='rmu'&&mt=='كشك')||(s=='hb'&&/معلق|قاعدة/.test(mt));
- S.q.filter(q=>secs.includes(q[1])).sort((a,b)=>SECS.indexOf(a[1])-SECS.indexOf(b[1])||(a[0]>b[0]?1:-1)).forEach(q=>{const w=q[7];
-  if(w=='ps'||w=='oh'){for(let k=1;k<=n;k++)t.push({q,k})}else if(ok(w))t.push({q,k:0})});return t}
-const run=(secs,next)=>qstep(tasks(secs),0,next);
-function qstep(T,i,next){if(i>=T.length)return next();const{q,k}=T[i],key=q[0]+(k?'#'+k:''),[c,,tx,ty,oo,rq,pw,,df]=q,d=DEP[c];
- if(d&&cur.ans[d[0]]!==d[1])return qstep(T,i+1,next);
- if(q[7]=='oh'&&!(parseFloat(cur.ans['Q25#'+k])>0))return qstep(T,i+1,next);
- const nx=()=>qstep(T,i+1,next),lbl=(k?'سورتيه '+k+': ':'')+tx,head=`<h2>${esc(lbl)}</h2>`,skip=rq!=='نعم'?B('تخطي',nx,'alt'):'';
- const fin=(a,note)=>{cur.ans[key]=a;op({t:'ans',q:key,a:String(a),note:note||''});
-  const bad=(df=='bad'&&a=='غير مقبول')||(df=='yes'&&a=='نعم')||(df=='no'&&a=='لا'),need=pw=='always'||(pw=='bad'&&a=='غير مقبول')||(pw=='yes'&&a=='نعم')||(pw=='no'&&a=='لا');
-  const go=()=>{if(bad)cur.def.push({key,text:lbl,note});nx()};
-  need?shot('قبل:'+key,()=>{cur.before[key]=cur.lastb64;go()}):go()};
- const note=(a,m)=>show(head+`<label>${m}</label><input id="n"><div id="er" class="err"></div>`+B('حفظ',()=>{const n=$('#n').value.trim();if(!n)return $('#er').textContent='اكتب السبب';fin(a,n)}));
- if(ty=='حالة')return show(head+B('مقبول',()=>fin('مقبول'))+B('غير مقبول',()=>note('غير مقبول','الملاحظة'),'alt')+skip);
- if(ty=='صورة')return show(head+B('📷 صوّر',()=>shot('قبل:'+key,()=>{cur.before[key]=cur.lastb64;cur.ans[key]='صورة';op({t:'ans',q:key,a:'صورة'});nx()})));
- if(ty=='رقم')return ask(esc(lbl),['v'],v=>v?fin(v.v):nx(),rq!=='نعم');
- if(ty=='نص')return show(head+'<input id="n"><div id="er" class="err"></div>'+B('التالي',()=>{const n=$('#n').value.trim();if(!n)return;fin(n)})+skip);
- if(ty=='قائمة + نص')return show(head+['1','2','3','4','5'].map(x=>B(x,()=>+x<4?note(x,'السبب (إجباري لأقل من 4)'):fin(x))).join('')+skip);
- let o=oo?oo.split(' | '):['نعم','لا'];if(/محتاج منك/.test(oo))o=S.lists[c=='Q24'?'مقاسات الكابل':'مقاسات الهوائي'];
- show(head+o.map(x=>B(esc(x),()=>fin(x))).join('')+skip)}
-// S09 إلى S12 الحرارة
-function th0(){ask('حرارة الجو الحالية (°C)',['t'],v=>{cur.amb=v.t;kr()?pm('متوسط',()=>pm('منخفض',tph)):pm('منخفض',tph)})}
-function pm(kind,next){const ms=[...new Set(S.th.filter(r=>r[0].startsWith(kind)).map(r=>r[0]))],f='نموذج حرارة '+(kind=='متوسط'?'المتوسط':'المنخفض'),last=val(cur.id,f);
- show(`<h2>شكل لوحة ${kind} عندك زي مين؟${last?'\nآخر مرة: '+last:''}</h2>`+ms.map(m=>B(m,()=>{setv(cur.id,f,m);thr(S.th.filter(r=>r[0]==m),0,next)},m==last?'alt':'')).join('')+(kind=='متوسط'?B('مفيش لوحة متوسط',next,'alt'):''))}
-function thr(rows,i,next){if(i>=rows.length)return next();const r=rows[i];
- ask(`${r[1]}\n${r[2]}\nنقاط ${r[3]}`,['R','S','T'],v=>{const lim=cfg('حد الحرارة فوق حرارة الجو (°C)')||20,hot=[v.R,v.S,v.T].some(x=>x-cur.amb>lim),b={t:'th',m:r[0],sec:r[1],row:r[2],R:v.R,S:v.S,T:v.T,amb:cur.amb};
-  if(!hot){op({...b,hot:0});return thr(rows,i+1,next)}
-  show(`<h2 style="color:#b3261e">نقطة ساخنة: زادت أكتر من ${lim}° عن الجو\n${esc(r[2])}</h2><label>إجراء المعالجة</label><input id="n"><div id="er" class="err"></div>`+B('📷 صوّر النقطة بالحرارية',()=>{const n=$('#n').value.trim();if(!n)return $('#er').textContent='اكتب إجراء المعالجة';
-   op({...b,hot:1,act:n});const key='th:'+r[2];shot('حرارية_نقطة:'+r[2],()=>{cur.before[key]=cur.lastb64;cur.def.push({key,text:'نقطة ساخنة: '+r[2],note:n});thr(rows,i+1,next)})}))})}
-function tph(){ps([['صوّر ورقة القياس بعد ما تكتب عليها','ورقة_القياس'],['صوّر لوحة المنخفض كاملة بالكاميرا الحرارية','حرارية_منخفض'],...(kr()?[['صوّر لوحة المتوسط كاملة بالكاميرا الحرارية','حرارية_متوسط']]:[])],0,()=>{cur.ph='before';cur.next=qs;L0()})}
-const qs=()=>{cur.next=null;run(SECS.slice(1),maint0)};
-// S21 إلى S25 الصيانة والختام
-function maint0(){cur.next=null;const df=cur.def.slice();if(cur.L&&cur.L.c&&!cur.L.c.bal)df.push({key:'unbal',text:'اتزان الأحمال'});
- cur.items=df.length?df:[{key:'clean',text:'تنظيف وتوثيق (مفيش عيوب)'}];
- show('<h2>'+(df.length?'محتاج صيانة بسبب:':'مفيش عيوب: هنوثّق إنه نضيف ولا يحتاج صيانة')+'</h2>'+cur.items.map(x=>`<div class="res bad">${esc(x.text)}</div>`).join('')+B('ابدأ',()=>mi(0)))}
-function mi(i){const it=cur.items[i];if(!it)return close0();const nx=()=>mi(i+1);
- if(it.key=='unbal'){cur.ph='after';cur.next=()=>{op({t:'maint',key:'unbal',done:'تم الاتزان وإدخال الأحمال بعد الاتزان'});nx()};return L0()}
- if(it.key=='clean'&&!cur.before.clean)return show('<h2>صوّر المحول واللوحة قبل التنظيف</h2>'+B('📷 صوّر',()=>shot('قبل:clean',()=>{cur.before.clean=cur.lastb64;mi(i)})));
- const g=cur.before[it.key];
- show(`<h2>${esc(it.text)}</h2>`+(g?`<img src="data:image/jpeg;base64,${g}" style="width:100%;border-radius:10px">`:'')+(it.note?`<div class="res">الملحوظة: ${esc(it.note)}</div>`:'')+'<label>اكتب اللي اتعمل</label><input id="n"><div id="er" class="err"></div>'
-  +B('📷 صوّر بعد بنفس الزاوية',()=>{const n=$('#n').value.trim();if(!n)return $('#er').textContent='اكتب اللي اتعمل';cam(g,'بعد:'+it.key,()=>{op({t:'maint',key:it.key,done:n,note:it.note||''});nx()})}))}
-async function cam(g,kind,cb){let s;try{s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})}catch(e){return shot(kind,cb)}
- show(`<div style="position:relative"><video id="v" autoplay playsinline style="width:100%;border-radius:10px"></video>${g?`<img src="data:image/jpeg;base64,${g}" style="position:absolute;inset:0;width:100%;height:100%;opacity:.4;object-fit:cover;pointer-events:none">`:''}</div>`
-  +B('📸 التقط',()=>{const v=$('#v'),c=document.createElement('canvas'),k=Math.min(1,1280/Math.max(v.videoWidth,v.videoHeight));c.width=v.videoWidth*k;c.height=v.videoHeight*k;c.getContext('2d').drawImage(v,0,0,c.width,c.height);s.getTracks().forEach(t=>t.stop());
-   S.ph.push({uid:uid(),id:cur.id,visit:cur.visit,kind,b64:c.toDataURL('image/jpeg',.7).split(',')[1]});save();sync();cb()}));$('#v').srcObject=s}
-function close0(){cur.next=null;show('<h2>توصيات الفرقة للملاحظات اللي ماتلافتهاش</h2><input id="n" placeholder="اكتب أو اكتب: مفيش"><div id="er" class="err"></div>'+B('التالي',()=>{const n=$('#n').value.trim();if(!n)return $('#er').textContent='اكتب أو اكتب: مفيش';
- op({t:'maint',key:'توصيات',note:n});ps([['صوّر أمر الشغل (الوش)','أمر_شغل_وش'],['صوّر أمر الشغل (الضهر)','أمر_شغل_ضهر']],0,fin0)}))}
-function fin0(){const p=S.ph.length+S.ops.length;show(`<h2>خلصنا ✓${p?'\nلسه '+p+' عنصر هيترفع لما النت يرجع':''}</h2>`+B('خلصت الزيارة',()=>{op({t:'visit',st:'مغلقة'});if(!S.done.includes(cur.id))S.done.push(cur.id);kv('put','done',S.done);sync();cur.visit=null;cur.vid=null;types()}))}
-// الإدارة
-const vchk=w=>{const n=cfg('جهد الفاز المقنن (فولت)')||220,hi=n*(1+cfg('حد الجهد الأعلى %')/100),lo=n*(1-cfg('حد الجهد الأدنى %')/100),bad=[['R',w.R],['S',w.S],['T',w.T]].filter(x=>x[1]>hi||x[1]<lo);cur.vwarn=bad.length?'جهد خارج المسموح ('+lo.toFixed(0)+' إلى '+hi.toFixed(0)+'): '+bad.map(x=>x[0]+'='+x[1]).join(' · '):''};
-function adm(){cur.adm=0;const lb=+localStorage.bk||0,old=Date.now()-lb>2592e6;show('<h2>الإدارة</h2>'+(old?'<div class="res bad">تذكير شهري: حان موعد النسخة الاحتياطية</div>':'')+[['محولات محملة (+80%)','محولات محملة'],['التنبيهات','تنبيهات'],['سجل المراجعة','هندسة مراجعه'],['الصيانات','الصيانات'],['الزيارات','الزيارات']].map(([t,n])=>B(t,()=>tbl(n))).join('')
- +B('⬇ تحميل نسخة إكسيل كاملة (احتياطي)',backup)+B('تقرير محول (قبل/بعد)',()=>{cur.adm=1;show('<h2>المحول عام ولا خاص؟</h2>'+B('عام',()=>feeders('عام'))+B('خاص',()=>feeders('خاص')),adm)},'alt'))}
-const tbl=n=>api({a:'sheet',n}).then(r=>show(`<h2>${n}</h2><div style="overflow-x:auto"><table border=1 cellpadding=6 style="background:#fff;font-size:14px"><tr>${r.h.map(h=>'<th>'+esc(h)+'</th>').join('')}</tr>${r.rows.map(x=>'<tr>'+x.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')}</table></div>`,adm)).catch(()=>show('<h2>محتاج نت</h2>',adm));
-async function rep(id){cur.id=id;show('<h2>جاري تجهيز التقرير...</h2>',adm);let r;try{r=await api({a:'hist',id})}catch(e){return show('<h2>محتاج نت</h2>',adm)}
+ S.q.slice().sort((a,b)=>a[0]-b[0]).filter(q=>inc.includes(q[2])).forEach(q=>{const sw=q[8],c=q[1];
+  if(sw=='oh'){for(let i=1;i<=(+d.nS||0);i++)L.push(qStep(q,i,()=>+d['s'+i+'.ovL']>0))}else if(ok(sw))L.push(qStep(q,0,DEP[c]?()=>d['a.'+DEP[c][0]]==DEP[c][1]:null))});return L}
+function qStep(q,i,when){const d=D(),[,c,sec,tx,ty,oo,rq,pw,,df]=q,key=c+(i?'#'+i:''),lbl=(i?'سورتيه '+i+': ':'')+tx;
+ return{id:'q.'+key,t:lbl,when,f:next=>{const head=`<h2>${esc(lbl)}</h2>`,skip=rq!=='نعم'?B('تخطي',next,'alt'):'';
+  const fin=(a,note)=>{d['a.'+key]=a;if(!i)d['a.'+c]=a;op({t:'ans',q:key,a:String(a),note:note||''});const bad=(df=='bad'&&a=='غير مقبول')||(df=='yes'&&a=='نعم')||(df=='no'&&a=='لا');d.def=(d.def||[]).filter(x=>x.key!=key);if(bad)d.def.push({key,text:lbl,note:note||''});fsave();
+   NEED(pw,a)?photoStep(esc(lbl)+'\n(صوّر)','قبل:'+key,pv=>{(d.bf=d.bf||{})[key]=pv;fsave();next()}):next()};
+  const note=(a,mm)=>show(head+`<label>${mm}</label><input id="n"><div id="er" class="err"></div>`+B('حفظ',()=>{const n=$('#n').value.trim();if(!n)return $('#er').textContent='اكتب السبب';fin(a,n)}),{fl:1});
+  if(ty=='حالة')return show(head+B('مقبول',()=>fin('مقبول'))+B('غير مقبول',()=>note('غير مقبول','الملاحظة'),'alt')+skip,{fl:1});
+  if(ty=='صورة')return photoStep(esc(lbl),'قبل:'+key,pv=>{(d.bf=d.bf||{})[key]=pv;op({t:'ans',q:key,a:'صورة'});next()});
+  if(ty=='رقم')return txt(esc(lbl),'a.'+key+'.t',v=>fin(v),{num:1,opt:rq!=='نعم'});
+  if(ty=='نص')return txt(esc(lbl),'a.'+key+'.t',v=>fin(v),{opt:rq!=='نعم'});
+  if(ty=='قائمة + نص')return show(head+['1','2','3','4','5'].map(x=>B(x,()=>+x<4?note(x,'السبب (إجباري لأقل من 4)'):fin(x))).join('')+skip,{fl:1});
+  const o=oo?String(oo).split(' | '):['نعم','لا'];show(head+o.map(x=>B(esc(x),()=>fin(x))).join('')+skip,{fl:1})}}}
+// ---------- الصيانة ----------
+function codeStep(t,f,n){const d=D(),reg=val(cur.id,f);txt(t+'\n(اكتب الكود اللي قدامك في الموقع)',f,v=>{if(reg.replace(/\s/g,'').toUpperCase()!=v.replace(/\s/g,'').toUpperCase())setv(cur.id,f,v,'تأكيد في الزيارة '+(reg?'(معدّل)':'(جديد)'));n()},{extra:B('مفيش كود في الموقع',()=>{if(reg)op({t:'alert',f:f+' مسجل وغير موجود في الموقع',reg});n()},'alt'),opt:0})}
+function maintSteps(){const d=D(),L=[],T=(id,t,f,w)=>L.push({id,t,f,when:w}),id=()=>cur.id,K=()=>kr();
+ T('wo1','أمر الشغل (الوش)',n=>photoStep('صوّر أمر الشغل (الوش)','أمر_شغل_وش',n));
+ T('wo2','أمر الشغل (الضهر)',n=>photoStep('صوّر أمر الشغل (الضهر)','أمر_شغل_ضهر',n));
+ T('np','لوحة البيانات',n=>choice('فيه لوحة بيانات معدنية من المصنع على المحول؟',['يوجد','لا يوجد'],'np',n,{pre:'<div class="res"><small>مثال:</small><img src="img/nameplate-example.svg" style="width:100%"></div>'}));
+ T('np.p','صورة لوحة البيانات',n=>photoStep('صوّر لوحة بيانات المحول\n(المعدنية المطبوعة، مش المكتوبة بخط اليد)','لوحة_بيانات_المحول',n,{ex:'img/nameplate-example.svg'}),()=>d.np=='يوجد');
+ T('dist','المسافة عن مصدر التغذية',n=>txt('بُعد المحول عن مصدر التغذية (كم)\n(رقم صحيح وخانة عشرية واحدة، من 0 إلى 9.9)','dist',v=>{setv(id(),DIST,v);n()},{num:1,val:vDist}));
+ T('mnt','التركيب',n=>choice('التركيب؟',['كشك','معلق','حجرة','قاعدة'],'mnt',v=>{setv(id(),'التركيب',v);n()}));
+ T('lvp','صورة لوحة المنخفض',n=>photoStep('صوّر لوحة المنخفض','لوحة_المنخفض',n));
+ T('lvc','كود لوحة المنخفض',n=>codeStep('كود لوحة المنخفض','كود لوحة المنخفض',n));
+ T('mvq','لوحة المتوسط',n=>choice('فيه لوحة متوسط؟',['نعم','لا'],'mvq',n),K);
+ T('mvp','صورة لوحة المتوسط',n=>photoStep('صوّر لوحة المتوسط','لوحة_المتوسط',n),()=>K()&&d.mvq=='نعم');
+ T('mvc','كود لوحة المتوسط',n=>codeStep('كود لوحة المتوسط','كود لوحة المتوسط',n),()=>K()&&d.mvq=='نعم');
+ T('cf.c','كود المحول',n=>codeStep('كود المحول (على المسطرة الذهبية)','كود المحول',n));
+ T('cf.v','جهد المحول',n=>choice('جهد المحول (ك.ف)؟',['10.5','11'],'cv',v=>{setv(id(),'الجهد ك.ف',v);n()}));
+ T('cf.t','وضع Tap',n=>choice('وضع الـ Tap؟',Array.from({length:cfg('عدد أوضاع Tap لجهد '+val(id(),'الجهد ك.ف'))||5},(_,k)=>String(k+1)),'ct',v=>{setv(id(),'وضع الـ Tap',v);n()}));
+ T('cf.k','السعة',n=>choice('سعة المحول (ك ف أ)؟',optList('السعات ك ف أ'),'ck',v=>{setv(id(),'السعة ك ف أ',v);n()}));
+ T('cf.y','نوع المحول',n=>choice('نوع المحول (الماركة)؟',optList('نوع المحول'),'cy',v=>{setv(id(),'نوع المحول',v);n()}));
+ T('cf.yr','سنة الصنع',n=>txt('سنة صنع المحول (4 أرقام)','cyr',v=>{setv(id(),'سنة صنع المحول',v);n()},{num:1,val:v=>/^(19[5-9]\d|20\d\d)$/.test(v)?'':'سنة من 4 أرقام'}));
+ T('gps','الموقع',n=>show('<h2>وقف قرب المحول واضغط</h2><div id="er" class="err"></div>'+B('📍 خد موقعي',()=>{$('#er').textContent='بيقرأ الموقع...';navigator.geolocation.getCurrentPosition(p=>{setv(id(),'X',p.coords.longitude.toFixed(6));setv(id(),'Y',p.coords.latitude.toFixed(6));n()},()=>$('#er').textContent='الموقع مش متاح. اطلع مكان مفتوح وجرّب تاني',{enableHighAccuracy:true,timeout:20000})}),{fl:1}));
+ qSteps(['صور الموقع','المحول','الزيت','الملحقات','الأرضي','العدادات','السلامة','الوثائق','الحالة','الكشك والحجرة']).forEach(s=>L.push(s));
+ T('amb','حرارة الجو',n=>vp('حرارة الجو الحالية (°C)',[{k:'amb',l:'حرارة الجو (°C)',pic:1,kind:'حرارة_الجو'}],n));
+ T('lvm','نموذج المنخفض',n=>{const l=val(id(),'نموذج حرارة المنخفض');choice('شكل لوحة المنخفض عندك زي مين؟'+(l?'\nآخر مرة: '+l:''),['منخفض A','منخفض B'].map(x=>({v:x,l:x,img:'img/'+modelImg(x)+'.jpg'})),'lvm',v=>{setv(id(),'نموذج حرارة المنخفض',v);n()})});
+ coreLoads(L);
+ return L.concat(measMore())}
+function measMore(){const d=D(),L=[],T=(id,t,f,w)=>L.push({id,t,f,when:w});
+ const thm=(g,i,w)=>thSteps(d.lvm||'منخفض A',g,i).forEach(s=>{s.when=w;L.push(s)});
+ thm('main',0,()=>d.brk=='نعم'&&d.lvm);
+ T('c.q','المكثفات',n=>choice('فيه مكثفات؟',['نعم','لا'],'cq',n));
+ T('c.n','عدد المكثفات',n=>choice('عدد المكثفات؟',[1,2,3,4,5,6],'nc',n),()=>d.cq=='نعم');
+ for(let j=1;j<=(+d.nc||0);j++)T('c.'+j,'المكثف '+j,n=>vp('قدرة المكثف '+j+' (KVAR)',[{k:'cap'+j,l:'قدرة المكثف '+j+' (KVAR)',pic:1,kind:'مكثف '+j}],n),()=>d.cq=='نعم');
+ T('c.b','سعة قاطع المكثفات',n=>txt('سعة قاطع المكثفات (أمبير)','cb',v=>{op({t:'caps',caps:Array.from({length:+d.nc||0},(_,j)=>num('cap'+(j+1))),brk:v});n()},{num:1}),()=>d.cq=='نعم');
+ thm('cap',0,()=>d.cq=='نعم'&&d.lvm);
+ for(let i=1;i<=(+d.nS||0);i++){const L2=[];sortieSteps(i,L2,false);L2.forEach(s=>L.push(s));thm('s',i,()=>d.lvm)}
+ T('earth','مقاومة الأرضي',n=>vp('مقاومة أرضي المحول (أوم)',[{k:'earth',l:'مقاومة الأرضي (Ω)',pic:1,kind:'أرضي_المحول'}],n));
+ T('m.sum','نتيجة الأحمال',n=>{const t=totals(),c=calc(t.R,t.S,t.T,capKva());d.unb=!c.bal;sumOp('before');show('<h2>نتيجة الأحمال والاتزان</h2>'+resCard(t.R,t.S,t.T,capKva(),'الإجمالي')+'<div class="res">الإصلاح والاتزان هيتعملوا في آخر الزيارة</div>'+B('التالي',n),{fl:1})});
+ T('t.lv','صورة الحرارية للمنخفض',n=>photoStep('صوّر لوحة المنخفض كاملة بالكاميرا الحرارية','حرارية_منخفض',n));
+ T('t.sheet','صورة ورقة القياس',n=>photoStep('صوّر ورقة القياس بعد ما تكتب عليها','ورقة_القياس',n));
+ T('mvm','نموذج المتوسط',n=>{const l=val(cur.id,'نموذج حرارة المتوسط');choice('شكل لوحة المتوسط عندك زي مين؟'+(l?'\nآخر مرة: '+l:''),['متوسط A','متوسط B','متوسط C'].map(x=>({v:x,l:x,img:'img/'+modelImg(x)+'.jpg'})),'mvm',v=>{setv(cur.id,'نموذج حرارة المتوسط',v);n()})},()=>kr()&&d.mvq=='نعم');
+ ['متوسط A','متوسط B','متوسط C'].forEach(m=>thSteps(m,'mv',0).forEach(s=>{s.when=()=>kr()&&d.mvq=='نعم'&&d.mvm==m;L.push(s)}));
+ T('t.mv','صورة الحرارية للمتوسط',n=>photoStep('صوّر لوحة المتوسط كاملة بالكاميرا الحرارية','حرارية_متوسط',n),()=>kr()&&d.mvq=='نعم');
+ qSteps(['الخط الهوائي']).forEach(s=>L.push(s));
+ // المعالجة
+ (d.hot||[]).forEach((h,j)=>{const p='h'+j;
+  T(p+'.b','نقطة ساخنة: '+h.row,n=>photoStep('نقطة ساخنة: '+esc(h.row)+'\n(R '+h.R+' · S '+h.S+' · T '+h.T+')\nصوّرها بالكاميرا الحرارية قبل المعالجة','حرارية قبل: '+h.row,n));
+  T(p+'.a','معالجة: '+h.row,n=>txt('إجراء المعالجة للنقطة: '+esc(h.row),p+'.act',v=>{d[p+'.done']=v;n()}));
+  T(p+'.v','بعد المعالجة: '+h.row,n=>vp('بعد المعالجة: أعلى قراءة (°C)',[{k:p+'.after',l:'أعلى قراءة بعد المعالجة (°C)',pic:1,kind:'حرارية بعد: '+h.row}],v=>{op({t:'th',m:h.m,sec:h.sec,row:h.row,R:h.R,S:h.S,T:h.T,amb:num('amb'),hot:0,act:d[p+'.done'],after:v[0]});n()}))});
+ T('u.a','اتزان الأحمال',n=>vp('بعد الاتزان: الأحمال (أمبير)\n(نقل الأحمال بين الفازات)',['R','S','T'].map(a=>({k:'ua.'+a,l:'حمل '+a+' (A)',pic:1,kind:'بعد الاتزان: حمل '+a})),v=>{const c=calc(...v,capKva());d.aftOk=c.bal;op({t:'loads',ph:'after',brk:d.brk=='نعم'?1:0,cap:d.mcap,R:v[0],S:v[1],T:v[2],nm:'',srt:[]});n()},{pre:'<div class="res bad">'+(()=>{const t=totals();return calc(t.R,t.S,t.T,capKva()).adv.join(' · ')})()+'</div>'}),()=>d.unb);
+ T('u.w','سبب عدم الاتزان',n=>txt('لسه غير متزن: اكتب السبب','uw',v=>{op({t:'maint',key:'سبب عدم الاتزان',note:v});n()}),()=>d.unb&&d.aftOk===false);
+ (d.def||[]).forEach((x,j)=>{const p='f'+j;
+  T(p+'.p','بعد: '+x.text,n=>ghost('صوّر بعد المعالجة بنفس الزاوية\n'+esc(x.text),'بعد:'+x.key,(d.bf||{})[x.key],n));
+  T(p+'.t','ما تم: '+x.text,n=>txt('اكتب اللي اتعمل لتلافي: '+esc(x.text),p+'.dn',v=>{op({t:'maint',key:x.key,done:v,note:x.note});n()}))});
+ const clean=()=>!(d.def||[]).length&&!(d.hot||[]).length&&!d.unb;
+ T('cl.b','قبل التنظيف',n=>photoStep('مفيش عيوب: صوّر المحول واللوحة قبل التنظيف','قبل:clean',pv=>{(d.bf=d.bf||{}).clean=pv;n()}),clean);
+ T('cl.a','بعد التنظيف',n=>ghost('صوّر بعد التنظيف بنفس الزاوية','بعد:clean',(d.bf||{}).clean,n),clean);
+ T('cl.t','توثيق',n=>{op({t:'maint',key:'clean',done:'تم التنظيف ولا يحتاج صيانة'});n()},clean);
+ T('rec','التوصيات',n=>txt('توصيات الفرقة للملاحظات اللي ماتلافتهاش\n(اكتب: مفيش لو مفيش)','rec',v=>{op({t:'maint',key:'توصيات',note:v});n()}));
+ T('fin','إنهاء',n=>show('<h2>خلصنا ✓</h2><div class="res">'+(S.ph.length+S.ops.length?'لسه '+(S.ph.length+S.ops.length)+' عنصر هيترفع لما النت يرجع':'كل شيء اترفع')+'</div>'+B('خلصت الزيارة',()=>{op({t:'visit',st:'مغلقة'});if(!S.done.includes(cur.id))S.done.push(cur.id);persistData();kv('del','fl:'+FL.key);FL=null;sync();types()}),{fl:1}));
+ return L}
+// ---------- الإدارة ----------
+function adm(){cur.adm=0;const old=Date.now()-(+localStorage.bk||0)>2592e6;show('<h2>الإدارة</h2>'+(old?'<div class="res bad">تذكير شهري: حان موعد النسخة الاحتياطية</div>':'')+[['محولات محملة (+80%)','محولات محملة'],['التنبيهات','تنبيهات'],['سجل المراجعة','هندسة مراجعه'],['الصيانات','الصيانات'],['الزيارات','الزيارات'],['هندسة يوليو','هندسة يوليو'],['هندسة أكتوبر','هندسة أكتوبر'],['هندسة يناير','هندسة يناير'],['هندسة أبريل','هندسة أبريل']].map(([t,n])=>B(t,()=>tbl(n),'alt')).join('')+B('⬇ تحميل نسخة إكسيل كاملة (احتياطي)',backup)+B('تقرير محول (قبل/بعد)',()=>{cur.adm=1;show('<h2>المحول عام ولا خاص؟</h2>'+B('عام',()=>feeders('عام'))+B('خاص',()=>feeders('خاص')),{b:adm})}))}
+const tbl=n=>api({a:'sheet',n}).then(r=>show(`<h2>${esc(n)}</h2><div style="overflow-x:auto"><table border=1 cellpadding=6 style="background:#fff;font-size:14px"><tr>${r.h.map(h=>'<th>'+esc(h)+'</th>').join('')}</tr>${r.rows.map(x=>'<tr>'+x.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')}</table></div>`,{b:adm})).catch(()=>show('<h2>محتاج نت</h2>',{b:adm}));
+async function backup(){show('<h2>جاري التجهيز...</h2>',{b:adm});try{const r=await api({a:'xlsx'}),a=document.createElement('a');a.href='data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'+r.b64;a.download='نسخة_احتياطية_'+new Date().toISOString().slice(0,10)+'.xlsx';a.click();localStorage.bk=Date.now();adm()}catch(e){show('<h2>تعذر التحميل. محتاج نت</h2>',{b:adm})}}
+async function rep(id){cur.id=id;show('<h2>جاري تجهيز التقرير...</h2>',{b:adm});let r;try{r=await api({a:'hist',id})}catch(e){return show('<h2>محتاج نت</h2>',{b:adm})}
  const im={};for(const p of r.ph){try{im[p[3]]=(await api({a:'img',fid:p[6]})).b64}catch(e){}}
  const img=k=>im[k]?`<img src="data:image/jpeg;base64,${im[k]}" style="width:100%">`:'<i>لا توجد صورة</i>',mt=r.maint.filter(x=>x[3]!='توصيات');
  show(`<h2>تقرير: ${esc(val(id,'اسم المحول'))}</h2><div class="res">`+['المغذي','كود المحول','السعة ك ف أ','التركيب','الجهد ك.ف',DIST].map(f=>esc(f)+': <b>'+esc(val(id,f)||'—')+'</b>').join('<br>')+'</div>'
-  +'<h2>الأحمال</h2>'+r.meas.map(x=>`<div class="res">${esc(x[2]==='before'?'قبل الاتزان':'بعد الاتزان')}: R ${x[5]} · S ${x[6]} · T ${x[7]} · N ${x[9]} · تحميل ${x[10]}% · ${esc(x[11])}</div>`).join('')
+  +'<h2>الأحمال</h2>'+r.meas.map(x=>`<div class="res">${esc(x[2]=='before'?'قبل الاتزان':'بعد الاتزان')} · ${esc(x[3])}: R ${x[6]} · S ${x[7]} · T ${x[8]} · N ${x[10]} · تحميل ${x[11]}% · ${esc(x[12])}</div>`).join('')
   +'<h2>الحرارة (النقاط الساخنة)</h2>'+(r.th.filter(x=>x[10]=='نعم').map(x=>`<div class="res hot">${esc(x[5])}: R ${x[6]} · S ${x[7]} · T ${x[8]} (الجو ${x[9]}) — ${esc(x[11])}</div>`).join('')||'<div class="res ok">لا توجد نقاط ساخنة</div>')
   +'<h2>قبل وبعد</h2>'+mt.map(x=>`<div class="res"><b>${esc(x[3])}</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">${img('قبل:'+x[3])}${img('بعد:'+x[3])}</div>ما تم: ${esc(x[4])}<br>الملحوظة: ${esc(x[5])}</div>`).join('')
-  +'<h2>المرفقات</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'+['أمر_شغل_وش','أمر_شغل_ضهر','حرارية_منخفض','حرارية_متوسط','ورقة_القياس'].map(k=>img(k)).join('')+'</div>'
-  +'<h2>التوصيات</h2>'+(r.maint.filter(x=>x[3]=='توصيات').map(x=>`<div class="res">${esc(x[5])}</div>`).join('')||'—')+B('🖨 طباعة / حفظ PDF',()=>print())+B('إعادة فتح الزيارة',()=>api({a:'reopen',id}).then(()=>alert('تمت إعادة الفتح')),'alt'),adm)}
-
-async function backup(){show('<h2>جاري التجهيز...</h2>',adm);try{const r=await api({a:'xlsx'}),a=document.createElement('a');a.href='data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'+r.b64;a.download='نسخة_احتياطية_'+new Date().toISOString().slice(0,10)+'.xlsx';a.click();localStorage.bk=Date.now();adm()}catch(e){show('<h2>تعذر التحميل. محتاج نت</h2>',adm)}}
-
+  +'<h2>المرفقات</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'+['أمر_شغل_وش','أمر_شغل_ضهر','لوحة_بيانات_المحول','حرارية_منخفض','حرارية_متوسط','ورقة_القياس'].map(k=>img(k)).join('')+'</div>'
+  +'<h2>التوصيات</h2>'+(r.maint.filter(x=>x[3]=='توصيات').map(x=>`<div class="res">${esc(x[5])}</div>`).join('')||'—')+B('🖨 طباعة / حفظ PDF',()=>print())+B('إعادة فتح الزيارة',()=>api({a:'reopen',id}).then(()=>toast('تمت إعادة الفتح')),'alt'),{b:adm})}
 pin();
 </script></body></html>

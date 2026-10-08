@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><link rel="icon" href="img/icon-192.png"><meta name="theme-color" content="#f84000"><title>صيانة المحولات - NDEDC</title>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><meta name="theme-color" content="#f84000"><title>صيانة المحولات - NDEDC</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#fff7f2;color:#2a1a12;font-size:18px}
 header{background:#f84000;color:#fff;padding:8px 10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:5}
@@ -21,7 +21,7 @@ input,select{width:100%;padding:13px;font-size:19px;border:2px solid #f0c9b8;bor
 .st{padding:8px;border-bottom:1px solid #eee}.st.d{color:#1f8a4c}.st.c{color:#f84000;font-weight:bold}
 iframe{width:100%;height:220px;border:0;border-radius:10px}
 </style></head><body>
-<header><img src="img/logo.png" alt=""><b>صيانة المحولات<small>شمال الدلتا لتوزيع الكهرباء NDEDC</small></b><span id="bd" style="font-size:12px"></span><button id="sy" class="hb" onclick="sync(1)">🔄</button><button id="pg" class="hb" onclick="prog()">☰</button><button id="hm" class="hb" onclick="HM&&HM()">🏠</button><button id="bk" class="hb" onclick="BK&&BK()">رجوع</button></header>
+<header><img src="logo.png" alt=""><b>صيانة المحولات<small>شمال الدلتا لتوزيع الكهرباء NDEDC</small></b><span id="bd" style="font-size:12px"></span><button id="sy" class="hb" onclick="sync(1)">🔄</button><button id="pg" class="hb" onclick="prog()">☰</button><button id="hm" class="hb" onclick="HM&&HM()">🏠</button><button id="bk" class="hb" onclick="BK&&BK()">رجوع</button></header>
 <main id="m"></main>
 <script>
 const API='https://script.google.com/macros/s/AKfycbx0E9Ti7p3g_ZXk-QSU7s2hPDyp3eVIdHYjl5Xtrm-uQV8MLg3pp5rD3JN9xxLuDvTq0A/exec';
@@ -33,6 +33,8 @@ const db=new Promise(r=>{const q=indexedDB.open('tr',1);q.onupgradeneeded=()=>q.
 const kv=(md,k,v)=>db.then(d=>new Promise(r=>{const o=d.transaction('kv',md=='get'?'readonly':'readwrite').objectStore('kv'),q=md=='get'?o.get(k):md=='del'?o.delete(k):o.put(v,k);q.onsuccess=()=>r(q.result)}));
 const api=b=>fetch(API,{method:'POST',body:JSON.stringify({pin:S.pin,...b})}).then(r=>r.json());
 const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('tr'+t)))].map(x=>x.toString(16).padStart(2,'0')).join('');
+let IMGB='';fetch('logo.png',{method:'HEAD'}).then(r=>{if(!r.ok)IMGB='img/'}).catch(()=>{});
+addEventListener('error',e=>{const t=e.target;if(t&&t.tagName=='IMG'&&!t.dataset.f){t.dataset.f=1;const u=t.getAttribute('src')||'';if(!u.startsWith('data:'))t.src=u.startsWith('img/')?u.slice(4):'img/'+u}},true);
 let S={pin:'',user:null,h:[],rows:[],q:[],th:[],cfgv:{},lists:{},feeders:[],thumbs:{},srt:[],done:[],ops:[],ph:[]},cur={},FL=null,PV={},H=[],BK=null,HM=null,busy=0;
 const cfg=k=>{const v=parseFloat((S.cfgv||{})[k]);return isNaN(v)?0:v};
 const B=(t,f,c='')=>{H.push(f);return `<button class="btn ${c}" onclick="H[${H.length-1}]()">${t}</button>`};
@@ -42,7 +44,7 @@ const badge=()=>{const n=S.ops.length+S.ph.length;$('#bd').textContent=(navigato
 const op=o=>{S.ops.push({uid:uid(),visit:FL&&FL.visit,id:cur.id,...o});save();sync()};
 const D=()=>FL.data,fkey=()=>cur.id+'|'+cur.mode+'|'+(cur.qm||'');
 function show(h,o={}){const f=o.fl&&FL,lo=f&&cur.mode=='loads',p=f?fpct():0;
- BK=o.b||(lo?fback:null);HM=o.h||(lo?()=>card(cur.id):null);
+ BK=o.b||(f?fback:null);HM=o.h||(f?()=>card(cur.id):null);
  m.innerHTML=(f?`<div class="bar"><i style="width:${p}%"></i></div><div class="pc">${p}% — ${p<30?'بداية موفقة':p<60?'ماشي كويس':p<90?'قربت تخلص':'خلاص تقريبًا'}</div>`:'')+h;
  $('#bk').style.display=BK?'block':'none';$('#hm').style.display=HM?'block':'none';$('#pg').style.display=f?'block':'none';scrollTo(0,0)}
 const toast=t=>{const d=document.createElement('div');d.textContent=t;d.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2a1a12;color:#fff;padding:10px 18px;border-radius:20px;z-index:20';document.body.appendChild(d);setTimeout(()=>d.remove(),2200)};
@@ -94,7 +96,7 @@ async function card(id){cur.id=id;await flowLoad();const nm=val(id,'اسم ال�
  const X=val(id,'X'),Y=val(id,'Y'),mp=X&&Y?(navigator.onLine?`<iframe loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=${+X-.004},${+Y-.003},${+X+.004},${+Y+.003}&layer=mapnik&marker=${Y},${X}"></iframe>`:`<div class="res">الموقع: ${Y}, ${X} (الخريطة محتاجة نت)</div>`):'<div class="res">الموقع لسه ما اتسجلش</div>';
  show(`<h2>${esc(nm)}</h2><div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">${S.thumbs[id]?`<img style="width:80px;height:80px;border-radius:10px" src="data:image/jpeg;base64,${S.thumbs[id]}">`:'<div style="font-size:50px">⚡</div>'}${B('📷 صورة المحول',()=>grab('صورة_المحول',b=>{thumb(b);card(id)}),'sm alt')}</div>`+pr+'<h3>بيانات المحول</h3>'+fs+ld+mp,{b:()=>trs(cur.f),h:types})}
 function thumb(b){const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=c.height=96;const x=c.getContext('2d'),k=Math.max(96/i.width,96/i.height);x.drawImage(i,(96-i.width*k)/2,(96-i.height*k)/2,i.width*k,i.height*k);const t=c.toDataURL('image/jpeg',.6).split(',')[1];S.thumbs[cur.id]=t;op({t:'thumb',id:cur.id,b64:t});S.ph.push({uid:uid(),id:cur.id,visit:'',kind:'صورة_المحول',b64:b});persistData();save();card(cur.id)};i.src='data:image/jpeg;base64,'+b}
-function setv(id,f,v,src){let i=col(f);if(i<0){S.h.push(f);i=S.h.length-1}const o=val(id,f);if(o===v)return;row(id)[i]=v;(cur.chg=cur.chg||{})[f]=o;S.ops.push({uid:uid(),t:'edit',id,f,v,src,ts:Date.now()});
+function setv(id,f,v,src){if(f=='اسم المحول')return;let i=col(f);if(i<0){S.h.push(f);i=S.h.length-1}const o=val(id,f);if(o===v)return;row(id)[i]=v;(cur.chg=cur.chg||{})[f]=o;S.ops.push({uid:uid(),t:'edit',id,f,v,src,ts:Date.now()});
  if(f=='الجهد ك.ف')setv(id,'جهد المحول الثانوي',v,src);persistData();save();sync()}
 function edit(f){const id=cur.id,o=val(id,f),T=FLD.find(x=>x[0]==f)[1],ar=FLD.find(x=>x[0]==f)[2],back=()=>card(id),opt=(a,add)=>show(`<h2>${esc(f)}</h2>`+a.map(x=>B(esc(x),()=>{setv(id,f,String(x));back()},String(x)==o?'alt':'')).join('')+(add?B('➕ خيار جديد',()=>ent(),'alt'):''),{b:back,h:types});
  const ent=(chk,num)=>show(`<h2>${esc(f)}</h2><input id="v" value="${esc(o)}" ${num?'inputmode="decimal" oninput="this.value=dg(this.value)"':''}><div id="er" class="err"></div>`+B('حفظ',()=>{const v=$('#v').value.trim();if(!v)return;const e=chk&&chk(v);if(e)return $('#er').textContent=e;setv(id,f,v);back()}),{b:back,h:types});
@@ -102,8 +104,8 @@ function edit(f){const id=cur.id,o=val(id,f),T=FLD.find(x=>x[0]==f)[1],ar=FLD.fi
  if(T=='tap'){const n=cfg('عدد أوضاع Tap لجهد '+val(id,'الجهد ك.ف'));return n?opt(Array.from({length:n},(_,k)=>String(k+1))):show('<h2>اختار الجهد الأول</h2>',{b:back,h:types})}
  if(T=='text')return ent();if(T=='dist')return ent(vDist,1);if(T=='year')return ent(v=>/^(19[5-9]\d|20\d\d)$/.test(v)&&+v<=new Date().getFullYear()?'':'سنة من 4 أرقام (مثال 2015)',1);
  if(T=='num')return ent(v=>+v>0?'':'اكتب رقم أكبر من صفر',1);
- if(T=='model'){const mv=/المتوسط/.test(f),ms=mv?['متوسط A','متوسط B','متوسط C']:['منخفض A','منخفض B'];return show(`<h2>${esc(f)}</h2>`+ms.map(x=>B(`<img src="img/${modelImg(x)}.jpg">${x}`,()=>{setv(id,f,x);back()},x==o?'alt':'')).join(''),{b:back,h:types})}}
-const modelImg=x=>(x[0]=='م'?'mv':'lv')+x.slice(-1);
+ if(T=='model'){const mv=/المتوسط/.test(f),ms=mv?['متوسط A','متوسط B','متوسط C']:['منخفض A','منخفض B'];return show(`<h2>${esc(f)}</h2>`+ms.map(x=>B(`<img src="${modelImg(x)}.jpg">${x}`,()=>{setv(id,f,x);back()},x==o?'alt':'')).join(''),{b:back,h:types})}}
+const modelImg=x=>(x.startsWith('متوسط')?'mv':'lv')+x.slice(-1);
 // ---------- محرك الخطوات والتقدم ----------
 const fsave=()=>kv('put','fl:'+FL.key,{done:FL.done,data:FL.data,cur:FL.cur,visit:FL.visit,ts:Date.now()});
 const stepsList=()=>(cur.mode=='loads'?ldSteps():maintSteps()).filter(s=>!s.when||s.when());
@@ -169,7 +171,7 @@ const BAND=[[300,355],[395,445],[445,525]],SX={lvA:[[195,275],[295,375],[415,495
 function rect(mi,g,i,k,sec){if(mi[0]=='m')return MVR[mi][sec];const bk=BAND[Math.min(k,2)];
  if(mi=='lvA'){if(g=='main')return[[0,140,100,185],[0,225,100,275],[0,270,100,365]][Math.min(k,2)];if(g=='cap')return[95,bk[0],165,bk[1]];const x=SX.lvA[Math.min(i,4)-1];return[x[0],bk[0],x[1],bk[1]]}
  if(g=='main')return[0,0,160,235];if(g=='cap')return[100,170,190,335];const x=SX.lvB[Math.min(i,4)-1];return[x[0],170,x[1],430]}
-function dgm(model,g,i,k,sec){const mi=modelImg(model),r=rect(mi,g,i,k,sec),[W,Hh]=DIM[mi];return `<div class="dg"><img src="img/${mi}.jpg">${r?`<div class="hl" style="left:${r[0]/W*100}%;top:${r[1]/Hh*100}%;width:${(r[2]-r[0])/W*100}%;height:${(r[3]-r[1])/Hh*100}%"></div>`:''}</div>`}
+function dgm(model,g,i,k,sec){const mi=modelImg(model),r=rect(mi,g,i,k,sec),[W,Hh]=DIM[mi];const w=r?r[2]-r[0]:0,h=r?r[3]-r[1]:0,zoom=r?`<div style="margin-bottom:10px;border:2px solid #f84000;border-radius:8px;height:0;padding-top:${h/w*100}%;background:url(${IMGB}${mi}.jpg) ${W-w?r[0]/(W-w)*100:0}% ${Hh-h?r[1]/(Hh-h)*100:0}%/${W/w*100}% auto no-repeat"></div><div class="pc">تكبير المنطقة المطلوبة</div>`:'';return `<div class="dg"><img src="${mi}.jpg">${r?`<div class="hl" style="left:${r[0]/W*100}%;top:${r[1]/Hh*100}%;width:${w/W*100}%;height:${h/Hh*100}%"></div>`:''}</div>`+zoom}
 function thSteps(model,grp,idx){const rows=S.th.filter(r=>r[0]==model&&r[4]==grp),L=[];rows.forEach((r,j)=>{const sec=r[1].replace('{i}',idx),name=r[2].replace(/\{i\}/g,idx),k=rows.filter(x=>x[1]==r[1]).indexOf(r),id=`t.${model}.${grp}${idx}.${j}`;
  L.push({id,t:`${sec}: ${name}`,f:n=>thr(model,grp,idx,sec,name,r[3],k,id,n)})});return L}
 function thr(model,grp,idx,sec,name,pts,k,id,next){const d=D(),amb=num('amb'),lim=cfg('حد الحرارة فوق حرارة الجو (°C)')||20;
@@ -196,8 +198,8 @@ function codeStep(t,f,n){const d=D(),reg=val(cur.id,f);txt(t+'\n(اكتب الك
 function maintSteps(){const d=D(),L=[],T=(id,t,f,w)=>L.push({id,t,f,when:w}),id=()=>cur.id,K=()=>kr();
  T('wo1','أمر الشغل (الوش)',n=>photoStep('صوّر أمر الشغل (الوش)','أمر_شغل_وش',n));
  T('wo2','أمر الشغل (الضهر)',n=>photoStep('صوّر أمر الشغل (الضهر)','أمر_شغل_ضهر',n));
- T('np','لوحة البيانات',n=>choice('فيه لوحة بيانات معدنية من المصنع على المحول؟',['يوجد','لا يوجد'],'np',n,{pre:'<div class="res"><small>مثال:</small><img src="img/nameplate-example.svg" style="width:100%"></div>'}));
- T('np.p','صورة لوحة البيانات',n=>photoStep('صوّر لوحة بيانات المحول\n(المعدنية المطبوعة، مش المكتوبة بخط اليد)','لوحة_بيانات_المحول',n,{ex:'img/nameplate-example.svg'}),()=>d.np=='يوجد');
+ T('np','لوحة البيانات',n=>choice('فيه لوحة بيانات معدنية من المصنع على المحول؟',['يوجد','لا يوجد'],'np',n,{pre:'<div class="res"><small>مثال:</small><img src="nameplate-example.svg" style="width:100%"></div>'}));
+ T('np.p','صورة لوحة البيانات',n=>photoStep('صوّر لوحة بيانات المحول\n(المعدنية المطبوعة، مش المكتوبة بخط اليد)','لوحة_بيانات_المحول',n,{ex:'nameplate-example.svg'}),()=>d.np=='يوجد');
  T('dist','المسافة عن مصدر التغذية',n=>txt('بُعد المحول عن مصدر التغذية (كم)\n(رقم صحيح وخانة عشرية واحدة، من 0 إلى 9.9)','dist',v=>{setv(id(),DIST,v);n()},{num:1,val:vDist}));
  T('mnt','التركيب',n=>choice('التركيب؟',['كشك','معلق','حجرة','قاعدة'],'mnt',v=>{setv(id(),'التركيب',v);n()}));
  T('lvp','صورة لوحة المنخفض',n=>photoStep('صوّر لوحة المنخفض','لوحة_المنخفض',n));
@@ -210,11 +212,11 @@ function maintSteps(){const d=D(),L=[],T=(id,t,f,w)=>L.push({id,t,f,when:w}),id=
  T('cf.t','وضع Tap',n=>choice('وضع الـ Tap؟',Array.from({length:cfg('عدد أوضاع Tap لجهد '+val(id(),'الجهد ك.ف'))||5},(_,k)=>String(k+1)),'ct',v=>{setv(id(),'وضع الـ Tap',v);n()}));
  T('cf.k','السعة',n=>choice('سعة المحول (ك ف أ)؟',optList('السعات ك ف أ'),'ck',v=>{setv(id(),'السعة ك ف أ',v);n()}));
  T('cf.y','نوع المحول',n=>choice('نوع المحول (الماركة)؟',optList('نوع المحول'),'cy',v=>{setv(id(),'نوع المحول',v);n()}));
- T('cf.yr','سنة الصنع',n=>txt('سنة صنع المحول (4 أرقام)','cyr',v=>{setv(id(),'سنة صنع المحول',v);n()},{num:1,val:v=>/^(19[5-9]\d|20\d\d)$/.test(v)?'':'سنة من 4 أرقام'}));
+ T('cf.yr','سنة الصنع (اختياري)',n=>txt('سنة صنع المحول (اختياري)\n(4 أرقام أو تخطي)','cyr',v=>{if(v)setv(id(),'سنة صنع المحول',v);n()},{num:1,opt:1,val:v=>!v||/^(19[5-9]\d|20\d\d)$/.test(v)?'':'سنة من 4 أرقام (مثال 2015)',extra:B('تخطي',n,'alt')}));
  T('gps','الموقع',n=>show('<h2>وقف قرب المحول واضغط</h2><div id="er" class="err"></div>'+B('📍 خد موقعي',()=>{$('#er').textContent='بيقرأ الموقع...';navigator.geolocation.getCurrentPosition(p=>{setv(id(),'X',p.coords.longitude.toFixed(6));setv(id(),'Y',p.coords.latitude.toFixed(6));n()},()=>$('#er').textContent='الموقع مش متاح. اطلع مكان مفتوح وجرّب تاني',{enableHighAccuracy:true,timeout:20000})}),{fl:1}));
  qSteps(['صور الموقع','المحول','الزيت','الملحقات','الأرضي','العدادات','السلامة','الوثائق','الحالة','الكشك والحجرة']).forEach(s=>L.push(s));
  T('amb','حرارة الجو',n=>vp('حرارة الجو الحالية (°C)',[{k:'amb',l:'حرارة الجو (°C)',pic:1,kind:'حرارة_الجو'}],n));
- T('lvm','نموذج المنخفض',n=>{const l=val(id(),'نموذج حرارة المنخفض');choice('شكل لوحة المنخفض عندك زي مين؟'+(l?'\nآخر مرة: '+l:''),['منخفض A','منخفض B'].map(x=>({v:x,l:x,img:'img/'+modelImg(x)+'.jpg'})),'lvm',v=>{setv(id(),'نموذج حرارة المنخفض',v);n()})});
+ T('lvm','نموذج المنخفض',n=>{const l=val(id(),'نموذج حرارة المنخفض');choice('شكل لوحة المنخفض عندك زي مين؟'+(l?'\nآخر مرة: '+l:''),['منخفض A','منخفض B'].map(x=>({v:x,l:x,img:modelImg(x)+'.jpg'})),'lvm',v=>{setv(id(),'نموذج حرارة المنخفض',v);n()})});
  coreLoads(L);
  return L.concat(measMore())}
 function measMore(){const d=D(),L=[],T=(id,t,f,w)=>L.push({id,t,f,when:w});
@@ -230,7 +232,7 @@ function measMore(){const d=D(),L=[],T=(id,t,f,w)=>L.push({id,t,f,when:w});
  T('m.sum','نتيجة الأحمال',n=>{const t=totals(),c=calc(t.R,t.S,t.T,capKva());d.unb=!c.bal;sumOp('before');show('<h2>نتيجة الأحمال والاتزان</h2>'+resCard(t.R,t.S,t.T,capKva(),'الإجمالي')+'<div class="res">الإصلاح والاتزان هيتعملوا في آخر الزيارة</div>'+B('التالي',n),{fl:1})});
  T('t.lv','صورة الحرارية للمنخفض',n=>photoStep('صوّر لوحة المنخفض كاملة بالكاميرا الحرارية','حرارية_منخفض',n));
  T('t.sheet','صورة ورقة القياس',n=>photoStep('صوّر ورقة القياس بعد ما تكتب عليها','ورقة_القياس',n));
- T('mvm','نموذج المتوسط',n=>{const l=val(cur.id,'نموذج حرارة المتوسط');choice('شكل لوحة المتوسط عندك زي مين؟'+(l?'\nآخر مرة: '+l:''),['متوسط A','متوسط B','متوسط C'].map(x=>({v:x,l:x,img:'img/'+modelImg(x)+'.jpg'})),'mvm',v=>{setv(cur.id,'نموذج حرارة المتوسط',v);n()})},()=>kr()&&d.mvq=='نعم');
+ T('mvm','نموذج المتوسط',n=>{const l=val(cur.id,'نموذج حرارة المتوسط');choice('شكل لوحة المتوسط عندك زي مين؟'+(l?'\nآخر مرة: '+l:''),['متوسط A','متوسط B','متوسط C'].map(x=>({v:x,l:x,img:modelImg(x)+'.jpg'})),'mvm',v=>{setv(cur.id,'نموذج حرارة المتوسط',v);n()})},()=>kr()&&d.mvq=='نعم');
  ['متوسط A','متوسط B','متوسط C'].forEach(m=>thSteps(m,'mv',0).forEach(s=>{s.when=()=>kr()&&d.mvq=='نعم'&&d.mvm==m;L.push(s)}));
  T('t.mv','صورة الحرارية للمتوسط',n=>photoStep('صوّر لوحة المتوسط كاملة بالكاميرا الحرارية','حرارية_متوسط',n),()=>kr()&&d.mvq=='نعم');
  qSteps(['الخط الهوائي']).forEach(s=>L.push(s));
@@ -255,14 +257,24 @@ function measMore(){const d=D(),L=[],T=(id,t,f,w)=>L.push({id,t,f,when:w});
 function adm(){cur.adm=0;const old=Date.now()-(+localStorage.bk||0)>2592e6;show('<h2>الإدارة</h2>'+(old?'<div class="res bad">تذكير شهري: حان موعد النسخة الاحتياطية</div>':'')+[['محولات محملة (+80%)','محولات محملة'],['التنبيهات','تنبيهات'],['سجل المراجعة','هندسة مراجعه'],['الصيانات','الصيانات'],['الزيارات','الزيارات'],['هندسة يوليو','هندسة يوليو'],['هندسة أكتوبر','هندسة أكتوبر'],['هندسة يناير','هندسة يناير'],['هندسة أبريل','هندسة أبريل']].map(([t,n])=>B(t,()=>tbl(n),'alt')).join('')+B('⬇ تحميل نسخة إكسيل كاملة (احتياطي)',backup)+B('تقرير محول (قبل/بعد)',()=>{cur.adm=1;show('<h2>المحول عام ولا خاص؟</h2>'+B('عام',()=>feeders('عام'))+B('خاص',()=>feeders('خاص')),{b:adm})}))}
 const tbl=n=>api({a:'sheet',n}).then(r=>show(`<h2>${esc(n)}</h2><div style="overflow-x:auto"><table border=1 cellpadding=6 style="background:#fff;font-size:14px"><tr>${r.h.map(h=>'<th>'+esc(h)+'</th>').join('')}</tr>${r.rows.map(x=>'<tr>'+x.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')}</table></div>`,{b:adm})).catch(()=>show('<h2>محتاج نت</h2>',{b:adm}));
 async function backup(){show('<h2>جاري التجهيز...</h2>',{b:adm});try{const r=await api({a:'xlsx'}),a=document.createElement('a');a.href='data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'+r.b64;a.download='نسخة_احتياطية_'+new Date().toISOString().slice(0,10)+'.xlsx';a.click();localStorage.bk=Date.now();adm()}catch(e){show('<h2>تعذر التحميل. محتاج نت</h2>',{b:adm})}}
+async function makePptx(){const R_=cur.rep;toast('جاري تجهيز PPTX...');try{if(!window.PptxGenJS)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+ const p=new PptxGenJS();p.layout='LAYOUT_16x9';const o={fontFace:'Arial',rtlMode:true,align:'right'},add=t=>{const s=p.addSlide();s.addText(t,{...o,x:.4,y:.2,w:9.2,h:.7,fontSize:26,bold:true,color:'C93400'});return s},im=k=>R_.im[k]?'data:image/jpeg;base64,'+R_.im[k]:null;
+ let s=p.addSlide();s.background={color:'F84000'};s.addText('تقرير صيانة محول',{...o,x:.5,y:1.4,w:9,h:1,fontSize:36,bold:true,color:'FFFFFF'});s.addText(R_.name,{...o,x:.5,y:2.6,w:9,h:.8,fontSize:28,color:'FFFFFF'});s.addText('شمال الدلتا لتوزيع الكهرباء NDEDC',{...o,x:.5,y:4.6,w:9,h:.5,fontSize:16,color:'FFFFFF'});
+ s=add('بيانات المحول');s.addText(R_.fields.map(f=>f[0]+': '+(f[1]||'—')).join('\n'),{...o,x:.5,y:1,w:9,h:4,fontSize:16,valign:'top'});
+ s=add('الأحمال والحرارة');s.addText(R_.meas.concat(R_.hot).join('\n')||'—',{...o,x:.5,y:1,w:9,h:4,fontSize:14,valign:'top'});
+ R_.maint.forEach(x=>{s=add(x[3]);const a=im('قبل:'+x[3]),b=im('بعد:'+x[3]);s.addText('قبل',{...o,x:5.2,y:.9,w:4.4,h:.4,fontSize:14,align:'center'});s.addText('بعد',{...o,x:.4,y:.9,w:4.4,h:.4,fontSize:14,align:'center'});if(a)s.addImage({data:a,x:5.2,y:1.3,w:4.4,h:3.0,sizing:{type:'contain',w:4.4,h:3.0}});if(b)s.addImage({data:b,x:.4,y:1.3,w:4.4,h:3.0,sizing:{type:'contain',w:4.4,h:3.0}});s.addText('ما تم: '+(x[4]||'—')+'\nالملحوظة: '+(x[5]||'—'),{...o,x:.4,y:4.4,w:9.2,h:1,fontSize:14,valign:'top'})});
+ s=add('المرفقات');['أمر_شغل_وش','أمر_شغل_ضهر','لوحة_بيانات_المحول','حرارية_منخفض','حرارية_متوسط','ورقة_القياس'].forEach((k,i)=>{const d=im(k);if(d)s.addImage({data:d,x:.4+(i%3)*3.1,y:1+Math.floor(i/3)*2.2,w:3,h:2.1,sizing:{type:'contain',w:3,h:2.1}})});
+ s=add('التوصيات');s.addText(R_.rec.join('\n')||'—',{...o,x:.5,y:1,w:9,h:4,fontSize:18,valign:'top'});
+ await p.writeFile({fileName:'تقرير_'+R_.name+'.pptx'});toast('تم تحميل الملف')}catch(e){toast('تعذر إنشاء PPTX (محتاج نت)')}}
 async function rep(id){cur.id=id;show('<h2>جاري تجهيز التقرير...</h2>',{b:adm});let r;try{r=await api({a:'hist',id})}catch(e){return show('<h2>محتاج نت</h2>',{b:adm})}
  const im={};for(const p of r.ph){try{im[p[3]]=(await api({a:'img',fid:p[6]})).b64}catch(e){}}
  const img=k=>im[k]?`<img src="data:image/jpeg;base64,${im[k]}" style="width:100%">`:'<i>لا توجد صورة</i>',mt=r.maint.filter(x=>x[3]!='توصيات');
+ cur.rep={name:val(id,'اسم المحول'),im,fields:['المغذي','كود المحول','السعة ك ف أ','التركيب','الجهد ك.ف',DIST].map(f=>[f,val(id,f)]),meas:r.meas.map(x=>(x[2]=='before'?'قبل الاتزان':'بعد الاتزان')+' '+x[3]+': R '+x[6]+' S '+x[7]+' T '+x[8]+' N '+x[10]+' تحميل '+x[11]+'% '+x[12]),hot:r.th.filter(x=>x[10]=='نعم').map(x=>'نقطة ساخنة '+x[5]+': R '+x[6]+' S '+x[7]+' T '+x[8]),maint:mt,rec:r.maint.filter(x=>x[3]=='توصيات').map(x=>x[5])};
  show(`<h2>تقرير: ${esc(val(id,'اسم المحول'))}</h2><div class="res">`+['المغذي','كود المحول','السعة ك ف أ','التركيب','الجهد ك.ف',DIST].map(f=>esc(f)+': <b>'+esc(val(id,f)||'—')+'</b>').join('<br>')+'</div>'
   +'<h2>الأحمال</h2>'+r.meas.map(x=>`<div class="res">${esc(x[2]=='before'?'قبل الاتزان':'بعد الاتزان')} · ${esc(x[3])}: R ${x[6]} · S ${x[7]} · T ${x[8]} · N ${x[10]} · تحميل ${x[11]}% · ${esc(x[12])}</div>`).join('')
   +'<h2>الحرارة (النقاط الساخنة)</h2>'+(r.th.filter(x=>x[10]=='نعم').map(x=>`<div class="res hot">${esc(x[5])}: R ${x[6]} · S ${x[7]} · T ${x[8]} (الجو ${x[9]}) — ${esc(x[11])}</div>`).join('')||'<div class="res ok">لا توجد نقاط ساخنة</div>')
   +'<h2>قبل وبعد</h2>'+mt.map(x=>`<div class="res"><b>${esc(x[3])}</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">${img('قبل:'+x[3])}${img('بعد:'+x[3])}</div>ما تم: ${esc(x[4])}<br>الملحوظة: ${esc(x[5])}</div>`).join('')
   +'<h2>المرفقات</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'+['أمر_شغل_وش','أمر_شغل_ضهر','لوحة_بيانات_المحول','حرارية_منخفض','حرارية_متوسط','ورقة_القياس'].map(k=>img(k)).join('')+'</div>'
-  +'<h2>التوصيات</h2>'+(r.maint.filter(x=>x[3]=='توصيات').map(x=>`<div class="res">${esc(x[5])}</div>`).join('')||'—')+B('🖨 طباعة / حفظ PDF',()=>print())+B('إعادة فتح الزيارة',()=>api({a:'reopen',id}).then(()=>toast('تمت إعادة الفتح')),'alt'),{b:adm})}
+  +'<h2>التوصيات</h2>'+(r.maint.filter(x=>x[3]=='توصيات').map(x=>`<div class="res">${esc(x[5])}</div>`).join('')||'—')+B('🖨 طباعة / حفظ PDF',()=>print())+B('⬇ تحميل PPTX',makePptx)+B('إعادة فتح الزيارة',()=>api({a:'reopen',id}).then(()=>toast('تمت إعادة الفتح')),'alt'),{b:adm})}
 pin();
 </script></body></html>
